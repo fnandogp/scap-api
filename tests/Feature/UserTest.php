@@ -18,10 +18,9 @@ class UserTest extends TestCase
             'email'      => 'john@doe.com',
             'password'   => \Hash::make('secret'),
             'enrollment' => '1234567890'
-
         ];
 
-        $this->post('/users', $data)
+        $this->post('/users', $data, $this->getCustomHeader())
              ->assertJson([
                  'data' => [
                      'name'       => 'John Doe',
@@ -40,7 +39,8 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->post('/users', $user->toArray())
+        $this->post('/users', $user->toArray(), $this->getCustomHeader())
              ->assertStatus(422);
     }
+
 }
