@@ -18,12 +18,12 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user)
     {
         return [
-            'id'         => $user->id,
+            'id'         => (int) $user->id,
             'name'       => $user->name,
             'email'      => $user->email,
             'enrollment' => $user->enrollment,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at
+            'created_at' => $user->created_at->toDateTimeString(),
+            'updated_at' => $user->updated_at->toDateTimeString()
         ];
     }
 }

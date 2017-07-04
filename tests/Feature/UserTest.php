@@ -22,16 +22,14 @@ class UserTest extends TestCase
 
         $this->post('/users', $data, $this->getCustomHeader())
              ->assertJson([
-                 'data' => [
+                 'data'    => [
                      'name'       => 'John Doe',
                      'email'      => 'john@doe.com',
                      'enrollment' => '1234567890'
                  ],
-                 'meta' => [
-                     'message' => __('responses.user.created'),
-                 ]
+                 'message' => __('responses.user.created'),
              ])
-             ->assertStatus(200);
+             ->assertStatus(201);
     }
 
     /** @test */
@@ -115,17 +113,15 @@ class UserTest extends TestCase
         $this
             ->put("/users/{$user->id}", $data, $this->getCustomHeader())
             ->assertJson([
-                'data' => [
+                'data'    => [
                     'id'         => $user->id,
                     'name'       => 'John Doe',
                     'email'      => 'john@doe.com',
                     'enrollment' => '1234567890'
                 ],
-                'meta' => [
-                    'message' => __('responses.user.updated'),
-                ]
+                'message' => __('responses.user.updated'),
             ])
-            ->assertStatus(200);
+            ->assertStatus(202);
     }
 
     /** @test */
@@ -234,6 +230,9 @@ class UserTest extends TestCase
 
         $this
             ->delete("/users/{$user->id}", [], $this->getCustomHeader())
-            ->assertStatus(204);
+            ->assertJson([
+                'message' => __('responses.user.deleted')
+            ])
+            ->assertStatus(202);
     }
 }

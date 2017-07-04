@@ -28,18 +28,20 @@ class UserController extends Controller
      *
      * @param UserCreateRequest $request
      *
-     * @return \Spatie\Fractal\Fractal
-     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(UserCreateRequest $request)
     {
         $job  = new UserCreate($request->name, $request->email, $request->password, $request->enrollment);
         $user = dispatch($job);
 
-        return fractal()
+        $data = fractal()
             ->item($user, new UserTransformer)
-            ->addMeta(['message' => __('responses.user.created')])
-            ->respond(200);
+            ->toArray();
+
+        $data['message'] = __('responses.user.created');
+
+        return response()->json($data, 201);
     }
 
     /**
@@ -51,9 +53,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return fractal()
+        $data = fractal()
             ->item($user, new UserTransformer)
-            ->respond(200);
+            ->toArray();
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -67,14 +71,17 @@ class UserController extends Controller
         $job  = new UserUpdate($user, $request->name, $request->email, $request->enrollment);
         $user = dispatch($job);
 
-        return fractal()
+        $data = fractal()
             ->item($user, new UserTransformer)
-            ->addMeta(['message' => __('responses.user.updated')])
-            ->respond(200);
+            ->toArray();
+
+        $data['message'] = __('responses.user.updated');
+
+        return response()->json($data, 202);
     }
 
     /**
-     * Destoy a user
+     * Destroy a user
      *
      * @param User $user
      *
@@ -87,7 +94,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => __('responses.user.deleted')
-        ], 204);
+        ], 202);
     }
 
     /**
@@ -99,8 +106,10 @@ class UserController extends Controller
     {
         $users = $this->users->getAll();
 
-        return fractal()
+        $data = fractal()
             ->collection($users, new UserTransformer)
-            ->respond(200);
+            ->toArray();
+
+        return response()->json($data, 200);
     }
 }
