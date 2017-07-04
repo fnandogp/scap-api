@@ -213,4 +213,17 @@ class UserTest extends TestCase
             ])
             ->assertStatus(200);
     }
+
+    /** @test */
+    public function it_show_a_single_user()
+    {
+        $user = factory(User::class)->create();
+
+        $this
+            ->get("/users/{$user->id}", [], $this->getCustomHeader())
+            ->assertJsonStructure([
+                'data' => ['id', 'name', 'email', 'enrollment', 'created_at', 'updated_at']
+            ])
+            ->assertStatus(200);
+    }
 }

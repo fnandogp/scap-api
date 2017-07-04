@@ -6,34 +6,20 @@ use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Jobs\User\UserCreate;
 use App\Jobs\User\UserUpdate;
-use App\Repositories\User\UserEloquent;
+use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
 use App\User;
 
 class UserController extends Controller
 {
     /**
-     * @var UserEloquent
+     * @var UserRepository
      */
     private $users;
 
-    public function __construct(UserEloquent $user_repository)
+    public function __construct(UserRepository $user_repository)
     {
         $this->users = $user_repository;
-    }
-
-    /**
-     * Get all users
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
-    {
-        $users = $this->users->getAll();
-
-        return fractal()
-            ->collection($users, new UserTransformer)
-            ->respond(200);
     }
 
     /**
@@ -56,6 +42,20 @@ class UserController extends Controller
     }
 
     /**
+     * Show a single user
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(User $user)
+    {
+        return fractal()
+            ->item($user, new UserTransformer)
+            ->respond(200);
+    }
+
+    /**
      * @param UserUpdateRequest $request
      * @param $user
      *
@@ -69,6 +69,20 @@ class UserController extends Controller
         return fractal()
             ->item($user, new UserTransformer)
             ->addMeta(['message' => __('responses.user.updated')])
+            ->respond(200);
+    }
+
+    /**
+     * Get all users
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $users = $this->users->getAll();
+
+        return fractal()
+            ->collection($users, new UserTransformer)
             ->respond(200);
     }
 }
