@@ -226,4 +226,14 @@ class UserTest extends TestCase
             ])
             ->assertStatus(200);
     }
+
+    /** @test */
+    public function it_deletes_a_user()
+    {
+        $user = factory(User::class)->create();
+
+        $this
+            ->delete("/users/{$user->id}", [], $this->getCustomHeader())
+            ->assertStatus(204);
+    }
 }

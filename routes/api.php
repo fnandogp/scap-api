@@ -4,7 +4,8 @@
 //    return $request->user();
 //});
 
-Route::get('/users', 'UserController@index')->name('users.index');
-Route::post('/users', 'UserController@store')->name('users.create');
+Route::post('/users', 'UserController@store')->name('users.store');
 Route::get('/users/{user}', 'UserController@show')->name('users.show');
-Route::put('/users/{user}', 'UserController@update')->name('users.edit');
+Route::put('/users/{user}', 'UserController@update')->name('users.update');
+Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
+Route::get('/users', 'UserController@index')->name('users.index');

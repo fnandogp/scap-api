@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Jobs\User\UserCreate;
+use App\Jobs\User\UserDelete;
 use App\Jobs\User\UserUpdate;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
@@ -70,6 +71,23 @@ class UserController extends Controller
             ->item($user, new UserTransformer)
             ->addMeta(['message' => __('responses.user.updated')])
             ->respond(200);
+    }
+
+    /**
+     * Destoy a user
+     *
+     * @param User $user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(User $user)
+    {
+        $job = new UserDelete($user);
+        dispatch($job);
+
+        return response()->json([
+            'message' => __('responses.user.deleted')
+        ], 204);
     }
 
     /**
