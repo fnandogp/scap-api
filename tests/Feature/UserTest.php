@@ -37,11 +37,6 @@ class UserTest extends TestCase
     /** @test */
     public function it_fails_to_create_a_user_with_empty_data()
     {
-        $user = factory(User::class)->create();
-
-        $this->post('/users', $user->toArray(), $this->getCustomHeader())
-             ->assertStatus(422);
-
         $this
             ->post("/users", [], $this->getCustomHeader())
             ->assertJson([
@@ -58,7 +53,6 @@ class UserTest extends TestCase
                 ]
             ])
             ->assertStatus(422);
-
     }
 
     public function it_fails_to_create_a_user_when_input_is_greater_then_permitted_or_non_valid_email()
@@ -203,5 +197,20 @@ class UserTest extends TestCase
                 ]
             ])
             ->assertStatus(422);
+    }
+
+    /** @test */
+    public function it_index_all_users()
+    {
+        factory(User::class)->times(5)->create();
+
+        $this
+            ->get('/users', [], $this->getCustomHeader())
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => ['id', 'name', 'email', 'enrollment', 'created_at', 'updated_at']
+                ],
+            ])
+            ->assertStatus(200);
     }
 }
