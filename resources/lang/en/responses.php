@@ -2,6 +2,7 @@
 
 return [
     'user' => [
-        'created' => 'Used created successfully.'
+        'created' => 'User created successfully.',
+        'updated' => 'User updated successfully.'
     ]
 ];

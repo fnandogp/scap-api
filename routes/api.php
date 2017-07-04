@@ -5,3 +5,4 @@
 //});
 
 Route::post('/users', 'UserController@store')->name('users.create');
+Route::put('/users/{user}', 'UserController@update')->name('users.edit');
