@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 
-class UserTest extends TestCase
+class UserTest extends FeatureTestCase
 {
     use DatabaseMigrations;
 
@@ -16,38 +15,33 @@ class UserTest extends TestCase
         $data = [
             'name'       => 'John Doe',
             'email'      => 'john@doe.com',
-            'password'   => \Hash::make('secret'),
+            'password'   => bcrypt('secret'),
             'enrollment' => '1234567890'
         ];
 
-        $this->post('/users', $data, $this->getCustomHeader())
-             ->assertJson([
-                 'data'    => [
-                     'name'       => 'John Doe',
-                     'email'      => 'john@doe.com',
-                     'enrollment' => '1234567890'
-                 ],
-                 'message' => __('responses.user.created'),
-             ])
-             ->assertStatus(201);
+        $this
+            ->post('/users', $data, $this->getCustomHeader($this->admin))
+            ->assertJson([
+                'data'    => [
+                    'name'       => 'John Doe',
+                    'email'      => 'john@doe.com',
+                    'enrollment' => '1234567890'
+                ],
+                'message' => __('responses.user.created'),
+            ])
+            ->assertStatus(201);
     }
 
     /** @test */
     public function it_fails_to_create_a_user_with_empty_data()
     {
         $this
-            ->post("/users", [], $this->getCustomHeader())
+            ->post("/users", [], $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
-                    'name'       => [
-                        __('validation.required', ['attribute' => 'name'])
-                    ],
-                    'email'      => [
-                        __('validation.required', ['attribute' => 'email'])
-                    ],
-                    'enrollment' => [
-                        __('validation.required', ['attribute' => 'enrollment'])
-                    ],
+                    'name'       => [__('validation.required', ['attribute' => 'name'])],
+                    'email'      => [__('validation.required', ['attribute' => 'email'])],
+                    'enrollment' => [__('validation.required', ['attribute' => 'enrollment'])],
                 ]
             ])
             ->assertStatus(422);
@@ -62,7 +56,7 @@ class UserTest extends TestCase
         ];
 
         $this
-            ->post("/users", $data, $this->getCustomHeader())
+            ->post("/users", $data, $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
                     'name'       => [
@@ -86,7 +80,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $this
-            ->post("/users", $user->toArray(), $this->getCustomHeader())
+            ->post("/users", $user->toArray(), $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
                     'email' => [
@@ -106,12 +100,12 @@ class UserTest extends TestCase
         $data = [
             'name'       => 'John Doe',
             'email'      => 'john@doe.com',
-            'password'   => \Hash::make('secret'),
+            'password'   => bcrypt('secret'),
             'enrollment' => '1234567890'
         ];
 
         $this
-            ->put("/users/{$user->id}", $data, $this->getCustomHeader())
+            ->put("/users/{$user->id}", $data, $this->getCustomHeader($this->admin))
             ->assertJson([
                 'data'    => [
                     'id'         => $user->id,
@@ -130,18 +124,12 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $this
-            ->put("/users/{$user->id}", [], $this->getCustomHeader())
+            ->put("/users/{$user->id}", [], $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
-                    'name'       => [
-                        __('validation.required', ['attribute' => 'name'])
-                    ],
-                    'email'      => [
-                        __('validation.required', ['attribute' => 'email'])
-                    ],
-                    'enrollment' => [
-                        __('validation.required', ['attribute' => 'enrollment'])
-                    ],
+                    'name'       => [__('validation.required', ['attribute' => 'name'])],
+                    'email'      => [__('validation.required', ['attribute' => 'email'])],
+                    'enrollment' => [__('validation.required', ['attribute' => 'enrollment'])],
                 ]
             ])
             ->assertStatus(422);
@@ -159,19 +147,15 @@ class UserTest extends TestCase
         ];
 
         $this
-            ->put("/users/{$user->id}", $data, $this->getCustomHeader())
+            ->put("/users/{$user->id}", $data, $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
-                    'name'       => [
-                        __('validation.max.string', ['attribute' => 'name', 'max' => 255])
-                    ],
+                    'name'       => [__('validation.max.string', ['attribute' => 'name', 'max' => 255])],
                     'email'      => [
                         __('validation.email', ['attribute' => 'email']),
                         __('validation.max.string', ['attribute' => 'email', 'max' => 255])
                     ],
-                    'enrollment' => [
-                        __('validation.max.string', ['attribute' => 'enrollment', 'max' => 15])
-                    ],
+                    'enrollment' => [__('validation.max.string', ['attribute' => 'enrollment', 'max' => 15])],
                 ]
             ])
             ->assertStatus(422);
@@ -184,12 +168,10 @@ class UserTest extends TestCase
         $users = factory(User::class)->times(2)->create();
 
         $this
-            ->put("/users/{$users[0]->id}", $users[1]->toArray(), $this->getCustomHeader())
+            ->put("/users/{$users[0]->id}", $users[1]->toArray(), $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
-                    'email' => [
-                        __('validation.unique', ['attribute' => 'email']),
-                    ],
+                    'email' => [__('validation.unique', ['attribute' => 'email'])],
                 ]
             ])
             ->assertStatus(422);
@@ -201,7 +183,7 @@ class UserTest extends TestCase
         factory(User::class)->times(5)->create();
 
         $this
-            ->get('/users', [], $this->getCustomHeader())
+            ->get('/users', [], $this->getCustomHeader($this->admin))
             ->assertJsonStructure([
                 'data' => [
                     '*' => ['id', 'name', 'email', 'enrollment', 'created_at', 'updated_at']
@@ -216,7 +198,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $this
-            ->get("/users/{$user->id}", [], $this->getCustomHeader())
+            ->get("/users/{$user->id}", [], $this->getCustomHeader($this->admin))
             ->assertJsonStructure([
                 'data' => ['id', 'name', 'email', 'enrollment', 'created_at', 'updated_at']
             ])
@@ -229,7 +211,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $this
-            ->delete("/users/{$user->id}", [], $this->getCustomHeader())
+            ->delete("/users/{$user->id}", [], $this->getCustomHeader($this->admin))
             ->assertJson([
                 'message' => __('responses.user.deleted')
             ])
