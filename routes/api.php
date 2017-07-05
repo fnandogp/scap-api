@@ -4,6 +4,9 @@ Route::group(['middleware' => 'cors'], function () {
     Route::post('/auth/login', 'Auth\AuthController@login')->name('auth.login');
 
     Route::group(['middleware' => 'jwt.auth'], function () {
+
+        Route::delete('/auth/logout', 'Auth\AuthController@logout')->name('auth.logout');
+
         Route::post('/users', 'UserController@store')->name('users.store');
         Route::get('/users/{user}', 'UserController@show')->name('users.show');
         Route::put('/users/{user}', 'UserController@update')->name('users.update');

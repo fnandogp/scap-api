@@ -55,7 +55,7 @@ class AuthController extends Controller
             if ( ! $token = \JWTAuth::attempt($credentials)) {
                 $data = [
                     'errors' => [
-                        'password' => [__('responses.errors.token.invalid_credentials')] // token_invalid
+                        'password' => [__('responses.auth.errors.invalid_credentials')]
                     ]
                 ];
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
             // something went wrong whilst attempting to encode the token
             $data = [
                 'errors' => [
-                    'password' => [__('responses.errors.token.could_not_create_token')] // token_invalid
+                    'password' => [__('responses.auth.errors.could_not_create_token')]
                 ]
             ];
 
@@ -77,7 +77,8 @@ class AuthController extends Controller
             ->item(\Auth::user(), new UserTransformer)
             ->toArray();
 
-        $data += ['token' => $token];
+        $data['token']   = $token;
+        $data['message'] = __('responses.auth.login');
 
         return response()->json($data, 200);
     }
@@ -136,14 +137,13 @@ class AuthController extends Controller
      *
      * @return \Response
      */
-//    public function logout()
-//    {
-//        $token = JWTAuth::getToken();
-//
-//        JWTAuth::invalidate($token);
-//
-//        return response()->json(['message' => trans('responses.messages.user.logout')], 200);
-//    }
+    public function logout()
+    {
+        $token = \JWTAuth::getToken();
+        \JWTAuth::invalidate($token);
+
+        return response()->json(['message' => __('responses.auth.logout')], 200);
+    }
 
     /**
      * Request a code to be sent by e-mail to change the current password.

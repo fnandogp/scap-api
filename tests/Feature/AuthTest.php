@@ -23,10 +23,11 @@ class AuthTest extends FeatureTestCase
 
         $this
             ->post('/auth/login', $credentials, $this->getCustomHeader())
-            ->assertJsonStructure([
-                'data',
-                'token'
-            ])
+            ->assertJsonStructure(['data', 'token', 'message'])
+            ->assertJsonFragment([
+                    'message' => __('responses.auth.login')
+                ]
+            )
             ->assertStatus(200);
     }
 
@@ -58,9 +59,20 @@ class AuthTest extends FeatureTestCase
             ->post('/auth/login', $credentials, $this->getCustomHeader())
             ->assertJson([
                 'errors' => [
-                    'password' => [__('responses.errors.token.invalid_credentials', ['attribute' => 'password'])]
+                    'password' => [__('responses.auth.errors.invalid_credentials', ['attribute' => 'password'])]
                 ]
             ])
             ->assertStatus(401);
+    }
+
+    /** @test */
+    public function it_logs_out_a_authenticated_user()
+    {
+        $this
+            ->delete('/auth/logout', [], $this->getCustomHeader($this->admin))
+            ->assertJson([
+                'message' => __('responses.auth.logout')
+            ])
+            ->assertStatus(200);
     }
 }

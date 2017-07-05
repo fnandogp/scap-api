@@ -15,7 +15,9 @@ class FeatureTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->admin = factory(\App\User::class)->create();
+        $this->admin = factory(\App\User::class)->create(
+            ['password' => 'secret']
+        );
     }
 
     /**
