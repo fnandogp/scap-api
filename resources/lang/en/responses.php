@@ -20,7 +20,7 @@ return [
 //    ],
     'auth' => [
         'login'               => 'Welcome back.',
-        'logout'              => 'User logged out successfully .',
+        'logout'              => 'User logged out successfully.',
         'credentials_updated' => 'Credentials changed successfully.',
         'password_token_sent' => 'Password token has been sent.',
         'errors'              => [

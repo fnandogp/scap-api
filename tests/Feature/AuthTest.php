@@ -75,4 +75,34 @@ class AuthTest extends FeatureTestCase
             ])
             ->assertStatus(200);
     }
+
+    /** @test */
+    public function it_get_the_authenticated_user()
+    {
+        $this
+            ->get('/auth/me', [], $this->getCustomHeader($this->admin))
+            ->assertJsonStructure(['data'])
+            ->assertStatus(200);
+    }
+
+    /** @test */
+    public function it_fails_if_none_user_is_authenticated()
+    {
+        $this
+            ->get('/auth/me', [], $this->getCustomHeader())
+            ->assertStatus(400);
+    }
+
+    /** @test */
+    public function it_fails_if_user_token_is_invalid()
+    {
+        $token = \JWTAuth::fromUser($this->admin);
+        \JWTAuth::setToken($token);
+        \JWTAuth::invalidate($token);
+        $headers['Authorization'] = 'Bearer ' . $token;
+
+        $this
+            ->get('/auth/me', [], $this->getCustomHeader(null, $headers))
+            ->assertStatus(401);
+    }
 }

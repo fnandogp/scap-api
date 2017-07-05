@@ -120,6 +120,20 @@ class AuthController extends Controller
 //    }
 
     /**
+     * Get the current authenticated user
+     */
+    public function me()
+    {
+        $user = \JWTAuth::toUser();
+
+        $data = fractal()
+            ->item($user, new UserTransformer)
+            ->toArray();
+
+        return response()->json($data, 200);
+    }
+
+    /**
      * Logout a Authd user.
      *
      * @api            {post} /logout Logout user
