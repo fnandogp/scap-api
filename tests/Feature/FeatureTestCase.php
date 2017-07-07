@@ -2,22 +2,39 @@
 
 namespace Tests\Feature;
 
+use App\Repositories\UserRepository;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class FeatureTestCase extends TestCase
 {
+
+    use DatabaseMigrations;
+
     /**
      * @var
      */
     protected $admin;
+    /**
+     * @var
+     */
+    protected $secretary;
+    /**
+     * @var
+     */
+    protected $professor;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->admin = factory(\App\User::class)->create(
-            ['password' => 'secret']
-        );
+        $this->seed(\InitSeeder::class);
+
+        $user_repo = new UserRepository;
+
+        $this->admin     = $user_repo->getByEmail('admin@example.com');
+        $this->secretary = $user_repo->getByEmail('secretary@example.com');
+        $this->professor = $user_repo->getByEmail('professor@example.com');
     }
 
     /**

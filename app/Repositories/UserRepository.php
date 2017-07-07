@@ -6,10 +6,6 @@ use App\User;
 
 class UserRepository
 {
-    public function __construct()
-    {
-        $this->query = User::query();
-    }
 
     /**
      * Get all users
@@ -18,7 +14,8 @@ class UserRepository
      */
     public function getAll()
     {
-        return $this->query->get();
+        return User::query()
+                   ->get();
     }
 
     /**
@@ -30,6 +27,22 @@ class UserRepository
      */
     public function get($id)
     {
-        return $this->query->where('id', $id)->get();
+        return User::query()
+                   ->where('id', $id)
+                   ->first();
+    }
+
+    /**
+     * Get a user by email
+     *
+     * @param $email
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getByEmail($email)
+    {
+        return User::query()
+                   ->where('email', $email)
+                   ->first();
     }
 }

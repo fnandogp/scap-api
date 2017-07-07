@@ -77,7 +77,7 @@ class UserController extends Controller
 
         $data['message'] = __('responses.user.updated');
 
-        return response()->json($data, 202);
+        return response()->json($data, 200);
     }
 
     /**
@@ -94,7 +94,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => __('responses.user.deleted')
-        ], 202);
+        ], 200);
     }
 
     /**

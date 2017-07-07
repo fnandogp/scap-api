@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class UserTest extends FeatureTestCase
 {
-    use DatabaseMigrations;
 
     /** @test */
     public function it_create_a_new_user()
@@ -30,6 +28,31 @@ class UserTest extends FeatureTestCase
                 'message' => __('responses.user.created'),
             ])
             ->assertStatus(201);
+    }
+
+    /** @test */
+    public function it_check_permission_of_create_user()
+    {
+        $data = [
+            'name'       => 'John Doe',
+            'email'      => 'john@doe.com',
+            'password'   => bcrypt('secret'),
+            'enrollment' => '1234567890'
+        ];
+
+        $this
+            ->post('/users', $data, $this->getCustomHeader($this->admin))
+            ->assertStatus(201);
+
+        $data['email'] .= '.com';
+        $this
+            ->post('/users', $data, $this->getCustomHeader($this->secretary))
+            ->assertStatus(201);
+
+        $data['email'] .= '.com';
+        $this
+            ->post('/users', $data, $this->getCustomHeader($this->professor))
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -115,7 +138,25 @@ class UserTest extends FeatureTestCase
                 ],
                 'message' => __('responses.user.updated'),
             ])
-            ->assertStatus(202);
+            ->assertStatus(200);
+    }
+
+    /** @test */
+    public function it_check_permission_of_edit_user()
+    {
+        $this
+            ->put("/users/{$this->admin->id}", $this->admin->toArray(), $this->getCustomHeader($this->admin))
+            ->assertStatus(200);
+
+        $this
+            ->put("/users/{$this->secretary->id}", $this->secretary->toArray(),
+                $this->getCustomHeader($this->secretary))
+            ->assertStatus(200);
+
+        $this
+            ->put("/users/{$this->professor->id}", $this->professor->toArray(),
+                $this->getCustomHeader($this->professor))
+            ->assertStatus(403);
     }
 
     /** @test */
@@ -193,6 +234,22 @@ class UserTest extends FeatureTestCase
     }
 
     /** @test */
+    public function it_check_permission_to_index_user()
+    {
+        $this
+            ->get("/users", [], $this->getCustomHeader($this->admin))
+            ->assertStatus(200);
+
+        $this
+            ->get("/users", [], $this->getCustomHeader($this->secretary))
+            ->assertStatus(200);
+
+        $this
+            ->get("/users", [], $this->getCustomHeader($this->professor))
+            ->assertStatus(403);
+    }
+
+    /** @test */
     public function it_show_a_single_user()
     {
         $user = factory(User::class)->create();
@@ -206,6 +263,22 @@ class UserTest extends FeatureTestCase
     }
 
     /** @test */
+    public function it_check_permission_of_show_user()
+    {
+        $this
+            ->get("/users/{$this->admin->id}", [], $this->getCustomHeader($this->admin))
+            ->assertStatus(200);
+
+        $this
+            ->get("/users/{$this->secretary->id}", [], $this->getCustomHeader($this->secretary))
+            ->assertStatus(200);
+
+        $this
+            ->get("/users/{$this->professor->id}", [], $this->getCustomHeader($this->professor))
+            ->assertStatus(403);
+    }
+
+    /** @test */
     public function it_deletes_a_user()
     {
         $user = factory(User::class)->create();
@@ -215,6 +288,22 @@ class UserTest extends FeatureTestCase
             ->assertJson([
                 'message' => __('responses.user.deleted')
             ])
-            ->assertStatus(202);
+            ->assertStatus(200);
+    }
+
+    /** @test */
+    public function it_check_permission_of_delete_user()
+    {
+        $this
+            ->delete("/users/{$this->admin->id}", [], $this->getCustomHeader($this->admin))
+            ->assertStatus(200);
+
+        $this
+            ->delete("/users/{$this->secretary->id}", [], $this->getCustomHeader($this->secretary))
+            ->assertStatus(200);
+
+        $this
+            ->delete("/users/{$this->professor->id}", [], $this->getCustomHeader($this->professor))
+            ->assertStatus(403);
     }
 }

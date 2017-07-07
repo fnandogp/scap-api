@@ -25,7 +25,7 @@ class UserCreateRequest extends BaseFormRequest
     {
         return [
             'name'       => 'required|max:255',
-            'email'      => 'required|email|unique:users|max:255',
+            'email'      => 'required|email|unique:users,email|max:255',
             'enrollment' => 'required|max:15'
         ];
     }

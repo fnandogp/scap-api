@@ -8,11 +8,13 @@ Route::group(['middleware' => 'cors'], function () {
         Route::get('/auth/me', 'Auth\AuthController@me')->name('auth.me');
         Route::delete('/auth/logout', 'Auth\AuthController@logout')->name('auth.logout');
 
-        Route::post('/users', 'UserController@store')->name('users.store');
-        Route::get('/users/{user}', 'UserController@show')->name('users.show');
-        Route::put('/users/{user}', 'UserController@update')->name('users.update');
-        Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
-        Route::get('/users', 'UserController@index')->name('users.index');
+        Route::group(['middleware' => ['permission:manage-user']], function () {
+            Route::post('/users', 'UserController@store')->name('users.store');
+            Route::get('/users/{user}', 'UserController@show')->name('users.show');
+            Route::put('/users/{user}', 'UserController@update')->name('users.update');
+            Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
+            Route::get('/users', 'UserController@index')->name('users.index');
+        });
 
     });
 });

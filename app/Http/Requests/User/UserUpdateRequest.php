@@ -23,10 +23,12 @@ class UserUpdateRequest extends BaseFormRequest
      */
     public function rules()
     {
+        $user = $this->route()->user;
+
         return [
             'id'         => 'exists:users',
             'name'       => 'required|max:255',
-            'email'      => 'required|email|unique:users|max:255',
+            'email'      => "required|email|unique:users,email,{$user->id}|max:255",
             'enrollment' => 'required|max:15'
         ];
     }

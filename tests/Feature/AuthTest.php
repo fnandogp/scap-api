@@ -3,12 +3,9 @@
 namespace Tests\Feature;
 
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class AuthTest extends FeatureTestCase
 {
-    use DatabaseMigrations;
-
     /** @test */
     public function it_authenticate_a_user()
     {
