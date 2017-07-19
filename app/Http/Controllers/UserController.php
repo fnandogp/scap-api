@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\UserCreateRequest;
-use App\Http\Requests\User\UserUpdateRequest;
+use App\Http\Requests\User\UserCreateFormRequest;
+use App\Http\Requests\User\UserUpdateFormRequest;
 use App\Jobs\User\UserCreate;
 use App\Jobs\User\UserDelete;
 use App\Jobs\User\UserUpdate;
@@ -26,13 +26,13 @@ class UserController extends Controller
     /**
      * Store a new user
      *
-     * @param UserCreateRequest $request
+     * @param UserCreateFormRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(UserCreateRequest $request)
+    public function store(UserCreateFormRequest $request)
     {
-        $job  = new UserCreate($request->name, $request->email, $request->password, $request->enrollment);
+        $job  = new UserCreate($request->all());
         $user = dispatch($job);
 
         $data = fractal()
@@ -61,14 +61,14 @@ class UserController extends Controller
     }
 
     /**
-     * @param UserUpdateRequest $request
+     * @param UserUpdateFormRequest $request
      * @param $user
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateFormRequest $request, User $user)
     {
-        $job  = new UserUpdate($user, $request->name, $request->email, $request->enrollment);
+        $job  = new UserUpdate($user, $request->all());
         $user = dispatch($job);
 
         $data = fractal()

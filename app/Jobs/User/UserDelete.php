@@ -2,6 +2,7 @@
 
 namespace App\Jobs\User;
 
+use App\Repositories\UserRepository;
 use App\User;
 
 class UserDelete
@@ -13,17 +14,21 @@ class UserDelete
 
     /**
      * Create a new job instance.
+     *
+     * @param User $user
      */
-    public function __construct($user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
 
     /**
      * Execute the job.
+     *
+     * @param UserRepository $repo
      */
-    public function handle()
+    public function handle(UserRepository $repo)
     {
-        User::destroy($this->user->id);
+        $repo->delete($this->user->id);
     }
 }

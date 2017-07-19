@@ -16,5 +16,8 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('/users', 'UserController@index')->name('users.index');
         });
 
+        Route::group(['middleware' => 'permission:create-request'], function () {
+            Route::post('/requests', 'RequestController@store')->name('request.store');
+        });
     });
 });

@@ -32,4 +32,12 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Request that have been created by the user
+     */
+    public function requests()
+    {
+        return $this->hasMany(Request::class);
+    }
 }
