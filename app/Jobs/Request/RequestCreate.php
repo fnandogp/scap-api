@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Request;
 
+use App\Enums\RequestStatus;
 use App\Repositories\RequestRepository;
 
 class RequestCreate
@@ -32,7 +33,12 @@ class RequestCreate
     {
         $user                  = \Auth::user();
         $this->data['user_id'] = $user->id;
+        $this->data['status']  = RequestStatus::get('initial');
 
-        return $repo->create($this->data);
+        $request = $repo->create($this->data);
+
+//        event(new RequestCreated($request));
+
+        return $request;
     }
 }

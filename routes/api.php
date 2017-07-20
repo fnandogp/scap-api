@@ -14,6 +14,9 @@ Route::group(['middleware' => 'cors'], function () {
             Route::put('/users/{user}', 'UserController@update')->name('users.update');
             Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
             Route::get('/users', 'UserController@index')->name('users.index');
+
+            Route::post('/users/{user}/department-chief', 'MandateController@store')
+                 ->name('users.department-chief');
         });
 
         Route::group(['middleware' => 'permission:create-request'], function () {

@@ -18,7 +18,17 @@ class RequestController extends Controller
      */
     public function store(RequestCreateFormRequest $request)
     {
-        $job         = new RequestCreate($request->all());
+        $job         = new RequestCreate($request->only([
+            'type',
+            'removal_from',
+            'removal_to',
+            'removal_reason',
+            'event',
+            'city',
+            'event_from',
+            'event_to',
+            'onus'
+        ]));
         $new_request = dispatch($job);
 
         $data = fractal()

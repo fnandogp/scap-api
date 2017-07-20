@@ -40,5 +40,9 @@ return [
         'created' => 'Request created successfully.',
         'updated' => 'Request updated successfully.',
         'deleted' => 'Request deleted successfully.',
+    ],
+
+    'mandates' => [
+        'created' => 'New mandate created successfully.'
     ]
 ];

@@ -26,7 +26,7 @@ class RequestCreateFormRequest extends FormRequest
         return [
             'type'           => 'required|in:' . \App\Enums\RequestType::implode(),
             'status'         => 'required|in:' . \App\Enums\RequestStatus::implode(),
-            'removal_from'   => 'required|date',
+            'removal_from'   => 'required|date|after:now',
             'removal_to'     => 'required|date|after:removal_from',
             'removal_reason' => 'required|string',
             'onus'           => 'required|in:' . \App\Enums\RequestOnus::implode(),

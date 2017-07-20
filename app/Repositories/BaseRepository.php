@@ -116,7 +116,7 @@ abstract class BaseRepository
      */
     public function update($id, array $data)
     {
-        $object = app($this->model_class)->find($id);
+        $object = $this->find($id);
         $object->fill($data);
         $object->save();
 
@@ -132,7 +132,7 @@ abstract class BaseRepository
      */
     public function delete($id)
     {
-        $user = app($this->model_class)->find($id);
+        $user = $this->find($id);
 
         return $user->delete();
     }

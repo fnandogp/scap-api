@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Mandate;
 use App\Request;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -9,7 +10,6 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-
     use DatabaseMigrations;
 
     private $user;
@@ -23,9 +23,16 @@ class UserTest extends TestCase
     /** @test */
     function a_user_can_make_requests()
     {
-        // @TODO: implement the relation test
-//        $request = create(Request::class, ['user_id' => $this->user->id]);
-//
-//        $this->assertEquals($request->id, $this->user->requests->first->id);
+        create(Request::class, ['user_id' => $this->user->id], 3);
+
+        $this->assertEquals(3, $this->user->requests->count());
+    }
+
+    /** @test */
+    function a_user_can_have_a_mandate()
+    {
+        create(Mandate::class, ['user_id' => $this->user->id], 3);
+
+        $this->assertEquals(3, $this->user->mandates->count());
     }
 }

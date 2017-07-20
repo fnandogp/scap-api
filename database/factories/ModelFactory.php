@@ -34,3 +34,13 @@ $factory->define(App\Request::class, function (Faker\Generator $faker) {
         'cancellation_reason' => $faker->paragraph,
     ];
 });
+
+$factory->define(\App\Mandate::class, function (Faker\Generator $faker) {
+    return [
+        'user_id'   => function () {
+            return factory(\App\User::class)->create();
+        },
+        'date_from' => $faker->dateTimeBetween('-1 year', '-1 month'),
+        'date_to'   => $faker->boolean ? null : $faker->dateTimeBetween('-1 mouth', 'now'),
+    ];
+});

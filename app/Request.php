@@ -54,9 +54,11 @@ class Request extends Model
         return $this->belongsTo(User::class);
     }
 
-
-    public function files()
-    {
-        $this->hasMany(File::class);
-    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+//    public function files()
+//    {
+//        return $this->hasMany(File::class);
+//    }
 }
