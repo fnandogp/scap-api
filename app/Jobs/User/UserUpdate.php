@@ -2,51 +2,43 @@
 
 namespace App\Jobs\User;
 
+use App\Repositories\UserRepository;
 use App\User;
 
 class UserUpdate
 {
     /**
-     * @var
+     * @var User
      */
     private $user;
     /**
-     * @var
+     * @var array
      */
-    private $name;
-    /**
-     * @var
-     */
-    private $email;
-    /**
-     * @var
-     */
-    private $enrollment;
+    private $data;
 
     /**
      * Create a new job instance.
+     *
+     * @param User $user
+     * @param array $data
      */
-    public function __construct($user, $name, $email, $enrollment)
+    public function __construct(User $user, array $data)
     {
-        $this->user       = $user;
-        $this->name       = $name;
-        $this->email      = $email;
-        $this->enrollment = $enrollment;
+        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
      * Execute the job.
      *
+     * @param UserRepository $repo
+     *
      * @return User
      */
-    public function handle()
+    public function handle(UserRepository $repo)
     {
-        $user = $this->user->fill([
-            'name'       => $this->name,
-            'email'      => $this->email,
-            'enrollment' => $this->enrollment
-        ]);
-
+        $user = $repo->update($this->user->id, $this->data);
+        
         return $user;
     }
 }

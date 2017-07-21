@@ -32,9 +32,9 @@ class FeatureTestCase extends TestCase
 
         $user_repo = new UserRepository;
 
-        $this->admin     = $user_repo->getByEmail('admin@example.com');
-        $this->secretary = $user_repo->getByEmail('secretary@example.com');
-        $this->professor = $user_repo->getByEmail('professor@example.com');
+        $this->admin     = $user_repo->findByEmail('admin@example.com');
+        $this->secretary = $user_repo->findByEmail('secretary@example.com');
+        $this->professor = $user_repo->findByEmail('professor@example.com');
     }
 
     /**

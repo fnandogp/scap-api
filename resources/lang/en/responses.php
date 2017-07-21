@@ -29,9 +29,20 @@ return [
             'could_not_create_token' => 'Token could not be created.'
         ],
     ],
+
     'user' => [
         'created' => 'User created successfully.',
         'updated' => 'User updated successfully.',
         'deleted' => 'User deleted successfully.',
+    ],
+
+    'request' => [
+        'created' => 'Request created successfully.',
+        'updated' => 'Request updated successfully.',
+        'deleted' => 'Request deleted successfully.',
+    ],
+
+    'mandates' => [
+        'created' => 'New mandate created successfully.'
     ]
 ];

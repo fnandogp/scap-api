@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserUpdateRequest extends BaseFormRequest
+class UserUpdateFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

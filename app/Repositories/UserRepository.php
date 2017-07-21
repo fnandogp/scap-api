@@ -4,45 +4,21 @@ namespace App\Repositories;
 
 use App\User;
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
+    protected $model_class = User::class;
 
     /**
-     * Get all users
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function getAll()
-    {
-        return User::query()
-                   ->get();
-    }
-
-    /**
-     * Find a single user
-     *
-     * @param $id
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function get($id)
-    {
-        return User::query()
-                   ->where('id', $id)
-                   ->first();
-    }
-
-    /**
-     * Get a user by email
+     * Find a user by email
      *
      * @param $email
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getByEmail($email)
+    public function findByEmail($email)
     {
-        return User::query()
-                   ->where('email', $email)
-                   ->first();
+        return $this->newQuery()
+                    ->where('email', $email)
+                    ->first();
     }
 }

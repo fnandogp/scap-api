@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Mandate;
 
-use App\Http\Requests\BaseFormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateRequest extends BaseFormRequest
+class MandateCreateFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class UserCreateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name'       => 'required|max:255',
-            'email'      => 'required|email|unique:users,email|max:255',
-            'enrollment' => 'required|max:15'
+            'date_from' => 'required|date',
+            'date_to'   => 'nullable|date|after:date_from'
         ];
     }
 }

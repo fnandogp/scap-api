@@ -2,53 +2,36 @@
 
 namespace App\Jobs\User;
 
+use App\Repositories\UserRepository;
 use App\User;
 
 class UserCreate
 {
     /**
-     * @var
+     * @var array
      */
-    private $name;
-    /**
-     * @var
-     */
-    private $email;
-    /**
-     * @var
-     */
-    private $password;
-    /**
-     * @var
-     */
-    private $enrollment;
+    private $data;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param array $data
      */
-    public function __construct($name, $email, $password, $enrollment)
+    public function __construct(array $data)
     {
-        $this->name       = $name;
-        $this->email      = $email;
-        $this->password   = $password;
-        $this->enrollment = $enrollment;
+        $this->data = $data;
     }
 
     /**
      * Execute the job.
      *
-     * @return \App\User
+     * @param UserRepository $repo
+     *
+     * @return User
      */
-    public function handle()
+    public function handle(UserRepository $repo)
     {
-        $user = User::create([
-            'name'       => $this->name,
-            'email'      => $this->email,
-            'password'   => \Hash::make($this->password),
-            'enrollment' => $this->enrollment
-        ]);
+        $user = $repo->create($this->data);
 
         return $user;
     }
