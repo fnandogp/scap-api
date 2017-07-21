@@ -35,7 +35,7 @@ class CreateRequestsTable extends Migration
             $table->timestamp('judgment_at')->nullable();
 
             $table->timestamp('canceled_at')->nullable();
-            $table->text('cancellation_reason');
+            $table->text('cancellation_reason')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

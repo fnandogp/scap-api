@@ -34,8 +34,8 @@ class RequestTransformer extends TransformerAbstract
             'city'                => $request->city,
             'event_from'          => $request->event_from->toDateTimeString(),
             'event_to'            => $request->event_to->toDateTimeString(),
-            'judgment_at'         => $request->judgment_at->toDateTimeString(),
-            'canceled_at'         => $request->canceled_at->toDateTimeString(),
+            'judgment_at'         => $request->judgment_at ? $request->judgment_at->toDateTimeString() : null,
+            'canceled_at'         => $request->canceled_at ? $request->canceled_at->toDateTimeString() : null,
             'cancellation_reason' => $request->cancellation_reason,
 
             'created_at' => $request->created_at->toDateTimeString(),

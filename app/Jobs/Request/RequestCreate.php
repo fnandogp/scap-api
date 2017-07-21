@@ -19,7 +19,18 @@ class RequestCreate
      */
     public function __construct(array $data)
     {
-        $this->data = $data;
+        $this->data = array_only($data, [
+            'user_id',
+            'type',
+            'removal_from',
+            'removal_to',
+            'removal_reason',
+            'event',
+            'city',
+            'event_from',
+            'event_to',
+            'onus'
+        ]);
     }
 
     /**
@@ -31,9 +42,7 @@ class RequestCreate
      */
     public function handle(RequestRepository $repo)
     {
-        $user                  = \Auth::user();
-        $this->data['user_id'] = $user->id;
-        $this->data['status']  = RequestStatus::get('initial');
+        $this->data['status'] = $this->data['type'] == "national" ? 'released' : 'initial';
 
         $request = $repo->create($this->data);
 

@@ -18,7 +18,7 @@ class RequestController extends Controller
      */
     public function store(RequestCreateFormRequest $request)
     {
-        $job         = new RequestCreate($request->only([
+        $data = $request->only([
             'type',
             'removal_from',
             'removal_to',
@@ -28,8 +28,11 @@ class RequestController extends Controller
             'event_from',
             'event_to',
             'onus'
-        ]));
-        $new_request = dispatch($job);
+        ]);
+
+        $data['user_id'] = \Auth::user()->id;
+
+        $new_request = dispatch(new RequestCreate($data));
 
         $data = fractal()
             ->item($new_request, new RequestTransformer)
