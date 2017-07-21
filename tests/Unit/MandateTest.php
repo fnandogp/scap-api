@@ -27,13 +27,14 @@ class MandateTest extends TestCase
     {
         $repo = new MandateRepository();
 
-        create(Mandate::class, ['date_to' => null]);
+        $data = make(Mandate::class, ['date_to' => null])->toArray();
+        $job  = new MandateCreate($data);
+        dispatch($job);
         $this->assertEquals(1, $repo->getActives()->count());
 
         $data = make(Mandate::class, ['date_to' => null])->toArray();
         $job  = new MandateCreate($data);
         dispatch($job);
-
         $this->assertEquals(1, $repo->getActives()->count());
     }
 
