@@ -32,7 +32,7 @@ class RemovalRequestRepository extends BaseRepository
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function approve($id, $status)
+    public function updateStatus($id, $status)
     {
         $removal_request = $this->find($id);
         $removal_request->fill(['status' => $status]);

@@ -36,6 +36,6 @@ class ApproveRemovalRequest
      */
     public function handle(RemovalRequestRepository $repo)
     {
-        $repo->approve($this->id, $this->status);
+        $repo->updateStatus($this->id, $this->status);
     }
 }

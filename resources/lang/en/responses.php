@@ -37,9 +37,10 @@ return [
     ],
 
     'removal_request' => [
-        'created' => 'Removal request created successfully.',
-        'updated' => 'Removal request updated successfully.',
-        'deleted' => 'Removal request deleted successfully.',
+        'created'           => 'Removal request created successfully.',
+        'archived'          => 'Removal request archived successfully.',
+        'canceled'          => 'Removal request canceled successfully.',
+        'voting_registered' => 'Voting result registered successfully.',
     ],
 
     'mandates' => [

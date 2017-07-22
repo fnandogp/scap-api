@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\RemovalRequestOnus;
+use App\Enums\RemovalRequestStatus;
+use App\Enums\RemovalRequestType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RequestCreateFormRequest extends FormRequest
@@ -24,12 +27,12 @@ class RequestCreateFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'type'           => 'required|in:' . \App\Enums\RemovalRequestType::implode(),
-            'status'         => 'required|in:' . \App\Enums\RemovalRequestStatus::implode(),
+            'type'           => 'required|in:' . RemovalRequestType::implode(),
+            'status'         => 'required|in:' . RemovalRequestStatus::implode(),
             'removal_from'   => 'required|date|after:now',
             'removal_to'     => 'required|date|after:removal_from',
             'removal_reason' => 'required|string',
-            'onus'           => 'required|in:' . \App\Enums\RemovalRequestOnus::implode(),
+            'onus'           => 'required|in:' . RemovalRequestOnus::implode(),
             'event'          => 'required|string',
             'city'           => 'required|string',
             'event_from'     => 'required|date|after:removal_from',
