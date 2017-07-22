@@ -4,9 +4,6 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Builder as EloquentQueryBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Pagination\AbstractPaginator;
 
 abstract class BaseRepository
 {
@@ -26,18 +23,16 @@ abstract class BaseRepository
     }
 
     /**
-     * @param $query
      * @param $take
      * @param $paginate
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|EloquentCollection|static[]
      */
-    protected function doQuery($query = null, $take = 15, $paginate = true)
+    protected function doQuery($take = 15, $paginate = true)
     {
-        if (is_null($query)) {
-            $query = $this->newQuery();
-        }
-        if (true == $paginate) {
+        $query = $this->newQuery();
+
+        if ($paginate == true) {
             return $query->paginate($take);
         }
 
@@ -60,7 +55,7 @@ abstract class BaseRepository
      */
     public function getAll($take = 15, $paginate = true)
     {
-        return $this->doQuery(null, $take, $paginate);
+        return $this->doQuery($take, $paginate);
     }
 
     /**
@@ -92,6 +87,24 @@ abstract class BaseRepository
     public function lists($column, $key = null)
     {
         return $this->newQuery()->lists($column, $key);
+    }
+
+    /**
+     * Given some condition, search for results
+     *
+     * @param array $conditions
+     *
+     * @return EloquentCollection|static[]
+     */
+    public function search($conditions = [])
+    {
+        $query = $this->newQuery();
+
+        foreach ($conditions as $key => $condition) {
+            $query->where($key, $condition);
+        }
+
+        return $query->get();
     }
 
     /**

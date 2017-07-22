@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Jobs\Mandate\MandateCreate;
+use App\Jobs\Mandate\CreateMandate;
 use App\Mandate;
 use App\Repositories\MandateRepository;
 use App\User;
@@ -28,12 +28,12 @@ class MandateTest extends TestCase
         $repo = new MandateRepository();
 
         $data = make(Mandate::class, ['date_to' => null])->toArray();
-        $job  = new MandateCreate($data);
+        $job  = new CreateMandate($data);
         dispatch($job);
         $this->assertEquals(1, $repo->getActives()->count());
 
         $data = make(Mandate::class, ['date_to' => null])->toArray();
-        $job  = new MandateCreate($data);
+        $job  = new CreateMandate($data);
         dispatch($job);
         $this->assertEquals(1, $repo->getActives()->count());
     }
@@ -41,12 +41,11 @@ class MandateTest extends TestCase
     /** @test */
     function a_user_can_be_or_cannot_be_the_department_chief()
     {
-        $user    = create(User::class);
-        create(Mandate::class, ['user_id' => $user->id]);
-
-        $this->assertTrue($user->isDepartmentChief());
+        $user = create(User::class);
+        create(Mandate::class, ['user_id' => $user->id, 'date_to' => null]);
+        $this->assertTrue($user->is_department_chief);
 
         $another_user = create(User::class);
-        $this->assertFalse($another_user->isDepartmentChief());
+        $this->assertFalse($another_user->is_department_chief);
     }
 }

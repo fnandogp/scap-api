@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Mandate;
-use App\Request;
+use App\RemovalRequest;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -21,11 +21,11 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    function a_user_can_make_requests()
+    function a_user_can_make_removal_requests()
     {
-        create(Request::class, ['user_id' => $this->user->id], 3);
+        create(RemovalRequest::class, ['user_id' => $this->user->id], 3);
 
-        $this->assertEquals(3, $this->user->requests->count());
+        $this->assertEquals(3, $this->user->removalRequests->count());
     }
 
     /** @test */

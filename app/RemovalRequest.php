@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
+class RemovalRequest extends Model
 {
 
     /**
@@ -47,6 +47,8 @@ class Request extends Model
     ];
 
     /**
+     * The author of the removal request
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -55,8 +57,18 @@ class Request extends Model
     }
 
     /**
+     * Opinions deferred to the removal request
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function opinions()
+    {
+        return $this->hasMany(Opinion::class);
+    }
+
+//    /**
+//     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+//     */
 //    public function files()
 //    {
 //        return $this->hasMany(File::class);

@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class RequestStatus extends BaseEnum
+class RemovalRequestStatus extends BaseEnum
 {
 
     function __construct()

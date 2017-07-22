@@ -34,7 +34,7 @@ class CreateMandatesTable extends Migration
     public function down()
     {
         Schema::table('mandates', function (Blueprint $table) {
-            $table->dropForeign('department_chief_mandate_user_id_foreign');
+            $table->dropForeign('mandates_user_id_foreign');
         });
 
         Schema::dropIfExists('mandates');

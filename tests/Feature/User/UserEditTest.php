@@ -7,7 +7,6 @@ use App\User;
 class UserEditTest extends FeatureTestCase
 {
 
-
     /** @test */
     public function it_edit_a_user()
     {

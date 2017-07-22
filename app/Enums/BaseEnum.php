@@ -12,11 +12,15 @@ abstract class BaseEnum
     /**
      * Get all key and values
      *
+     * @param array $exclude
+     *
      * @return array
      */
-    public static function all()
+    public static function all($exclude = [])
     {
-        return (new static)->collection->all();
+        return (new static)->collection
+            ->except($exclude)
+            ->all();
     }
 
     /**
@@ -34,21 +38,31 @@ abstract class BaseEnum
     /**
      * Get only the keys
      *
+     * @param array $exclude
+     *
      * @return array
      */
-    public static function keys()
+    public static function keys($exclude = [])
     {
-        return (new static)->collection->keys()->all();
+        return (new static)->collection
+            ->keys()
+            ->except($exclude)
+            ->all();
     }
 
     /**
      * Get only the values
      *
+     * @param array $exclude
+     *
      * @return array
      */
-    public static function values()
+    public static function values($exclude = [])
     {
-        return (new static)->collection->values()->all();
+        return (new static)->collection
+            ->values()
+            ->except($exclude)
+            ->all();
     }
 
     /**
@@ -58,6 +72,8 @@ abstract class BaseEnum
      */
     public static function implode()
     {
-        return (new static)->collection->keys()->implode(',');
+        return (new static)->collection
+            ->keys()
+            ->implode(',');
     }
 }

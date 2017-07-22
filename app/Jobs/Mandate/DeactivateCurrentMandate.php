@@ -4,7 +4,7 @@ namespace App\Jobs\Mandate;
 
 use App\Repositories\MandateRepository;
 
-class MandateDeactivateCurrent
+class DeactivateCurrentMandate
 {
 
     /**
@@ -25,7 +25,7 @@ class MandateDeactivateCurrent
     {
         $mandates = $repo->getActives();
         $mandates->each(function ($mandate) {
-            $job = new MandateDeactivate($mandate);
+            $job = new DeactivateMandate($mandate);
             dispatch($job);
         });
     }

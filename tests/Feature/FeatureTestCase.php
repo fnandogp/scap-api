@@ -8,9 +8,6 @@ use Tests\TestCase;
 
 class FeatureTestCase extends TestCase
 {
-
-    use DatabaseMigrations;
-
     /**
      * @var
      */
@@ -24,11 +21,9 @@ class FeatureTestCase extends TestCase
      */
     protected $professor;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
-
-        $this->seed(\InitSeeder::class);
 
         $user_repo = new UserRepository;
 

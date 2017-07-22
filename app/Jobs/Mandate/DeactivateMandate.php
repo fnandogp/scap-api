@@ -5,21 +5,21 @@ namespace App\Jobs\Mandate;
 use App\Mandate;
 use App\Repositories\MandateRepository;
 
-class MandateCreate
+class DeactivateMandate
 {
     /**
-     * @var array
+     * @var Mandate
      */
-    private $data;
+    private $mandate;
 
     /**
      * Create a new job instance.
      *
-     * @param array $data
+     * @param Mandate $mandate
      */
-    public function __construct(array $data)
+    public function __construct(Mandate $mandate)
     {
-        $this->data = $data;
+        $this->mandate = $mandate;
     }
 
     /**
@@ -27,15 +27,11 @@ class MandateCreate
      *
      * @param MandateRepository $repo
      *
-     * @return Mandate
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(MandateRepository $repo)
     {
-        // First deactivate all current activated mandates
-        $job = new MandateDeactivateCurrent();
-        dispatch($job);
-
-        $mandate = $repo->create($this->data);
+        $mandate = $repo->deactivate($this->mandate->id);
 
         return $mandate;
     }

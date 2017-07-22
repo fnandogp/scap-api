@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateOpinionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,17 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('opinions', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('removal_request_id')->unsigned();
             $table->foreign('removal_request_id')->references('id')->on('removal_requests');
 
-            $table->string('name');
-            $table->string('extension');
-            $table->string('mime');
-            $table->string('path');
-            $table->integer('size');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
-            $table->softDeletes();
+            $table->string('type');
+            $table->text('reason');
+
             $table->timestamps();
         });
     }
@@ -37,6 +35,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('opinions');
     }
 }

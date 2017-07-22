@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Jobs\Request;
+namespace App\Jobs\RemovalRequest;
 
-use App\Enums\RequestStatus;
-use App\Repositories\RequestRepository;
+use App\Repositories\RemovalRequestRepository;
 
-class RequestCreate
+class CreateRemovalRequest
 {
     /**
      * @var array
@@ -36,11 +35,11 @@ class RequestCreate
     /**
      * Execute the job.
      *
-     * @param RequestRepository $repo
+     * @param RemovalRequestRepository $repo
      *
      * @return mixed
      */
-    public function handle(RequestRepository $repo)
+    public function handle(RemovalRequestRepository $repo)
     {
         $this->data['status'] = $this->data['type'] == "national" ? 'released' : 'initial';
 
