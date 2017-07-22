@@ -2,8 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Jobs\RemovalRequest\RemovalRequestCreate;
+use App\Jobs\RemovalRequest\ApproveNonManifestedNationalRemovalRequest;
+use App\Jobs\RemovalRequest\CreateRemovalRequest;
+use App\Opinion;
 use App\RemovalRequest;
+use App\Repositories\RemovalRequestRepository;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -34,7 +37,7 @@ class RemovalRequestTest extends TestCase
     {
         $data = make(RemovalRequest::class, ['user_id' => $this->user->id, 'type' => 'national'])->toArray();
 
-        $request = dispatch(new RemovalRequestCreate($data));
+        $request = dispatch(new CreateRemovalRequest($data));
 
         $this->assertEquals('released', $request->status);
     }
@@ -44,8 +47,23 @@ class RemovalRequestTest extends TestCase
     {
         $data = make(RemovalRequest::class, ['user_id' => $this->user->id, 'type' => 'international'])->toArray();
 
-        $request = dispatch(new RemovalRequestCreate($data));
+        $request = dispatch(new CreateRemovalRequest($data));
 
         $this->assertEquals('initial', $request->status);
+    }
+
+    /** @test */
+    function it_approve_all_national_released_removal_requests()
+    {
+        $repo = new RemovalRequestRepository;
+
+        $removal_request = create(RemovalRequest::class, ['type' => 'national', 'status' => 'released']);
+        create(Opinion::class, ['removal_request_id' => $removal_request->id]);
+        create(RemovalRequest::class, ['type' => 'national', 'status' => 'released'], 3);
+
+        $this->assertEquals(3, $repo->getNonManifestedNationalReleased()->count());
+
+        dispatch(new ApproveNonManifestedNationalRemovalRequest);
+        $this->assertEquals(0, $repo->getNonManifestedNationalReleased()->count());
     }
 }

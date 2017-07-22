@@ -4,7 +4,7 @@ namespace App\Jobs\RemovalRequest;
 
 use App\Repositories\RemovalRequestRepository;
 
-class RemovalRequestCreate
+class CreateRemovalRequest
 {
     /**
      * @var array

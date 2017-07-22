@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Opinion\OpinionManifestAgainstFormRequest;
-use App\Jobs\Opinion\OpinionManifestAgainst;
+use App\Jobs\Opinion\ManifestAgainstRemovalRequest;
 use App\RemovalRequest;
 use App\Transformers\OpinionTransformer;
 
@@ -17,7 +17,7 @@ class OpinionController extends Controller
         $data['removal_request_id'] = $removal_request->id;
         $data['user_id']            = \Auth::user()->id;
 
-        $opinion = dispatch(new OpinionManifestAgainst($data));
+        $opinion = dispatch(new ManifestAgainstRemovalRequest($data));
 
 
         $data = fractal()

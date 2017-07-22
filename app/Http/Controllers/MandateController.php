@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Mandate\MandateCreateFormRequest;
-use App\Jobs\Mandate\MandateCreate;
+use App\Jobs\Mandate\CreateMandate;
 use App\Transformers\MandateTransformer;
 use App\User;
 
@@ -18,7 +18,7 @@ class MandateController extends Controller
      */
     public function store(MandateCreateFormRequest $request, User $user)
     {
-        $job     = new MandateCreate(
+        $job     = new CreateMandate(
             array_add($request->only(['date_from', 'date_to']), 'user_id', $user->id));
         $mandate = dispatch($job);
 

@@ -5,7 +5,7 @@ namespace App\Jobs\User;
 use App\Repositories\UserRepository;
 use App\User;
 
-class UserDelete
+class DeleteUser
 {
     /**
      * @var

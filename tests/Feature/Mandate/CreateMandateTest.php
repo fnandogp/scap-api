@@ -3,11 +3,10 @@
 namespace Tests\Feature\User;
 
 use App\Mandate;
-use App\Repositories\MandateRepository;
 use App\User;
 use Tests\Feature\FeatureTestCase;
 
-class MandateCreateTest extends FeatureTestCase
+class CreateMandateTest extends FeatureTestCase
 {
     /** @test */
     function it_create_a_new_mandate()

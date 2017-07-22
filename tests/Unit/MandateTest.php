@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Jobs\Mandate\MandateCreate;
+use App\Jobs\Mandate\CreateMandate;
 use App\Mandate;
 use App\Repositories\MandateRepository;
 use App\User;
@@ -28,12 +28,12 @@ class MandateTest extends TestCase
         $repo = new MandateRepository();
 
         $data = make(Mandate::class, ['date_to' => null])->toArray();
-        $job  = new MandateCreate($data);
+        $job  = new CreateMandate($data);
         dispatch($job);
         $this->assertEquals(1, $repo->getActives()->count());
 
         $data = make(Mandate::class, ['date_to' => null])->toArray();
-        $job  = new MandateCreate($data);
+        $job  = new CreateMandate($data);
         dispatch($job);
         $this->assertEquals(1, $repo->getActives()->count());
     }

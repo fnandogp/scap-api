@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestCreateFormRequest;
-use App\Jobs\RemovalRequest\RemovalRequestCreate;
+use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Transformers\RemovalRequestTransformer;
 
 class RemovalRequestController extends Controller
@@ -32,7 +32,7 @@ class RemovalRequestController extends Controller
 
         $input['user_id'] = \Auth::user()->id;
 
-        $removal_request = dispatch(new RemovalRequestCreate($input));
+        $removal_request = dispatch(new CreateRemovalRequest($input));
 
         $data = fractal()
             ->item($removal_request, new RemovalRequestTransformer)

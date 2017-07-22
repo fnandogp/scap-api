@@ -8,9 +8,9 @@ class RemovalRequestOnus extends BaseEnum
     function __construct()
     {
         $this->collection = collect([
-            'total' => 'Total',
+            'total'   => 'Total',
             'partial' => 'Partial',
-            'none' => 'None',
+            'none'    => 'None',
         ]);
     }
 }

@@ -5,8 +5,12 @@ namespace App\Jobs\User;
 use App\Repositories\UserRepository;
 use App\User;
 
-class UserCreate
+class UpdateUser
 {
+    /**
+     * @var User
+     */
+    private $user;
     /**
      * @var array
      */
@@ -15,10 +19,12 @@ class UserCreate
     /**
      * Create a new job instance.
      *
+     * @param User $user
      * @param array $data
      */
-    public function __construct(array $data)
+    public function __construct(User $user, array $data)
     {
+        $this->user = $user;
         $this->data = $data;
     }
 
@@ -31,7 +37,7 @@ class UserCreate
      */
     public function handle(UserRepository $repo)
     {
-        $user = $repo->create($this->data);
+        $user = $repo->update($this->user->id, $this->data);
 
         return $user;
     }

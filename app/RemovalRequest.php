@@ -47,6 +47,8 @@ class RemovalRequest extends Model
     ];
 
     /**
+     * The author of the removal request
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -55,8 +57,18 @@ class RemovalRequest extends Model
     }
 
     /**
+     * Opinions deferred to the removal request
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function opinions()
+    {
+        return $this->hasMany(Opinion::class);
+    }
+
+//    /**
+//     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+//     */
 //    public function files()
 //    {
 //        return $this->hasMany(File::class);

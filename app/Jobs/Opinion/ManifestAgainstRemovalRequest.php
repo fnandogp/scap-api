@@ -4,7 +4,7 @@ namespace App\Jobs\Opinion;
 
 use App\Repositories\OpinionRepository;
 
-class OpinionManifestAgainst
+class ManifestAgainstRemovalRequest
 {
     /**
      * @var array

@@ -13,7 +13,9 @@ class OpinionManifestAgainstFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $removal_request = request()->removal_request;
+
+        return $removal_request->type == 'national' && $removal_request->status == 'released';
     }
 
     /**
