@@ -33,19 +33,23 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function isDepartmentChief()
+    protected $appends = [
+        'is_department_chief'
+    ];
+
+    public function getIsDepartmentChiefAttribute()
     {
         $repo = new MandateRepository;
 
-        return $repo->isActive($this->id);
+        return $repo->isActive($this->attributes['id']);
     }
 
     /**
-     * Request that have been created by the user
+     * RemovalRequest that have been created by the user
      */
-    public function requests()
+    public function removalRequests()
     {
-        return $this->hasMany(Request::class);
+        return $this->hasMany(RemovalRequest::class);
     }
 
     /**

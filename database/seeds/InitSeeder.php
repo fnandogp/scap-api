@@ -35,6 +35,11 @@ class InitSeeder extends Seeder
             'display_name' => 'Defer opinion'
         ]);
 
+        $manifest_against = Permission::create([
+            'name'         => 'manifest-against',
+            'display_name' => 'Manifest against'
+        ]);
+
         $cancel_request = Permission::create([
             'name'         => 'cancel-request',
             'display_name' => 'Cancel request'
@@ -51,6 +56,7 @@ class InitSeeder extends Seeder
             $create_request,
             $cancel_request,
             $defer_opinion,
+            $manifest_against
         ]);
 
         $secretary_role = Role::create([
@@ -60,8 +66,6 @@ class InitSeeder extends Seeder
         $secretary_role->attachPermissions([
             $manage_users,
             $view_request,
-            $create_request,
-            $cancel_request,
             $defer_opinion,
         ]);
 
@@ -69,11 +73,13 @@ class InitSeeder extends Seeder
             'name'         => 'professor',
             'display_name' => 'professor',
         ]);
+        $professor_role->attachPermissions([
+            $view_request,
+            $create_request,
+            $cancel_request,
+            $manifest_against,
+        ]);
 
-//        $department_chief_role = Role::create([
-//            'name'         => 'department_chief',
-//            'display_name' => 'Department Chief',
-//        ]);
 
         // Users
         $admin = User::create([

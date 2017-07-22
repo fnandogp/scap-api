@@ -41,12 +41,11 @@ class MandateTest extends TestCase
     /** @test */
     function a_user_can_be_or_cannot_be_the_department_chief()
     {
-        $user    = create(User::class);
-        create(Mandate::class, ['user_id' => $user->id]);
-
-        $this->assertTrue($user->isDepartmentChief());
+        $user = create(User::class);
+        create(Mandate::class, ['user_id' => $user->id, 'date_to' => null]);
+        $this->assertTrue($user->is_department_chief);
 
         $another_user = create(User::class);
-        $this->assertFalse($another_user->isDepartmentChief());
+        $this->assertFalse($another_user->is_department_chief);
     }
 }

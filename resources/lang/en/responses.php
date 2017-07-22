@@ -36,10 +36,10 @@ return [
         'deleted' => 'User deleted successfully.',
     ],
 
-    'request' => [
-        'created' => 'Request created successfully.',
-        'updated' => 'Request updated successfully.',
-        'deleted' => 'Request deleted successfully.',
+    'removal_request' => [
+        'created' => 'Removal request created successfully.',
+        'updated' => 'Removal request updated successfully.',
+        'deleted' => 'Removal request deleted successfully.',
     ],
 
     'mandates' => [

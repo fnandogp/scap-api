@@ -2,21 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Enums\RequestStatus;
-use App\Enums\RequestType;
-use App\Request;
-use Carbon\Carbon;
+use App\RemovalRequest;
 
-class RequestCreateTest extends FeatureTestCase
+class RemovalRequestCreateTest extends FeatureTestCase
 {
     /** @test */
     public function it_create_a_removal_request()
     {
-        $data = make(Request::class, [
+        $data = make(RemovalRequest::class, [
             'user_id' => $this->admin->id
         ])->toArray();
 
-        $this->post('/requests', $data, $this->getCustomHeader($this->admin))
+        $this->post('/removal-requests', $data, $this->getCustomHeader($this->admin))
              ->assertStatus(201)
              ->assertJsonStructure(['data', 'message']);
     }

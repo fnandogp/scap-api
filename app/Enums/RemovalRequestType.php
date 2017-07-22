@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-class RequestType extends BaseEnum
+class RemovalRequestType extends BaseEnum
 {
     /**
-     * RequestType constructor.
+     * RemovalRequestType constructor.
      */
     function __construct()
     {

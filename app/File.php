@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\RemovalRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
@@ -12,7 +13,7 @@ class File extends Model
      * @var array
      */
     protected $fillable = [
-        'request_id',
+        'removal_request_id',
         'name',
         'extension',
         'mime',
@@ -23,8 +24,8 @@ class File extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function request()
+    public function removalRequest()
     {
-        return $this->belongsTo(\App\Request::class);
+        return $this->belongsTo(RemovalRequest::class);
     }
 }

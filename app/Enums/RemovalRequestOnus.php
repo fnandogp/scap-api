@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 
-class RequestOnus extends BaseEnum
+class RemovalRequestOnus extends BaseEnum
 {
     function __construct()
     {

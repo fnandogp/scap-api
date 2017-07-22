@@ -1,7 +1,7 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(\App\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -14,17 +14,17 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Request::class, function (Faker\Generator $faker) {
+$factory->define(\App\RemovalRequest::class, function (Faker\Generator $faker) {
     return [
         'user_id'             => function () {
-            return factory(App\User::class)->create()->id;
+            return factory(\App\User::class)->create()->id;
         },
-        'type'                => array_random(\App\Enums\RequestType::keys()),
-        'status'              => array_random(\App\Enums\RequestStatus::keys()),
+        'type'                => array_random(\App\Enums\RemovalRequestType::keys()),
+        'status'              => array_random(\App\Enums\RemovalRequestStatus::keys()),
         'removal_from'        => $faker->dateTimeBetween('now', '+10 days'),
         'removal_to'          => $faker->dateTimeBetween('+30 days', '+100 days'),
         'removal_reason'      => $faker->paragraph,
-        'onus'                => array_random(\App\Enums\RequestOnus::keys()),
+        'onus'                => array_random(\App\Enums\RemovalRequestOnus::keys()),
         'event'               => $faker->sentence,
         'city'                => $faker->city,
         'event_from'          => $faker->dateTimeBetween('+10 days', '+15 days'),
@@ -35,6 +35,7 @@ $factory->define(App\Request::class, function (Faker\Generator $faker) {
     ];
 });
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(\App\Mandate::class, function (Faker\Generator $faker) {
     return [
         'user_id'   => function () {
@@ -42,5 +43,19 @@ $factory->define(\App\Mandate::class, function (Faker\Generator $faker) {
         },
         'date_from' => $faker->dateTimeBetween('-1 year', '-1 month'),
         'date_to'   => $faker->boolean ? null : $faker->dateTimeBetween('-1 mouth', 'now'),
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(\App\Opinion::class, function (Faker\Generator $faker) {
+    return [
+        'removal_request_id'  => function () {
+            return factory(\App\RemovalRequest::class)->create();
+        },
+        'user_id'     => function () {
+            return factory(\App\User::class)->create();
+        },
+        'type'        => array_random(\App\Enums\OpinionType::keys()),
+        'reason'      => $faker->paragraph
     ];
 });

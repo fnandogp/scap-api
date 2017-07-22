@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMandatesTable extends Migration
+class CreateOpinionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateMandatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('mandates', function (Blueprint $table) {
+        Schema::create('opinions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('removal_request_id')->unsigned();
+            $table->foreign('removal_request_id')->references('id')->on('removal_requests');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->timestamp('date_from');
-            $table->timestamp('date_to')->nullable();
+            $table->string('type');
+            $table->text('reason');
 
             $table->timestamps();
         });
@@ -33,10 +35,6 @@ class CreateMandatesTable extends Migration
      */
     public function down()
     {
-        Schema::table('mandates', function (Blueprint $table) {
-            $table->dropForeign('mandate_user_id_foreign');
-        });
-
-        Schema::dropIfExists('mandates');
+        Schema::dropIfExists('opinions');
     }
 }

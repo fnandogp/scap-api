@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestCreateFormRequest;
-use App\Jobs\Request\RequestCreate;
-use App\Transformers\RequestTransformer;
+use App\Jobs\RemovalRequest\RemovalRequestCreate;
+use App\Transformers\RemovalRequestTransformer;
 
-class RequestController extends Controller
+class RemovalRequestController extends Controller
 {
 
     /**
@@ -18,7 +18,7 @@ class RequestController extends Controller
      */
     public function store(RequestCreateFormRequest $request)
     {
-        $data = $request->only([
+        $input = $request->only([
             'type',
             'removal_from',
             'removal_to',
@@ -30,15 +30,15 @@ class RequestController extends Controller
             'onus'
         ]);
 
-        $data['user_id'] = \Auth::user()->id;
+        $input['user_id'] = \Auth::user()->id;
 
-        $new_request = dispatch(new RequestCreate($data));
+        $removal_request = dispatch(new RemovalRequestCreate($input));
 
         $data = fractal()
-            ->item($new_request, new RequestTransformer)
+            ->item($removal_request, new RemovalRequestTransformer)
             ->toArray();
 
-        $data['message'] = __('responses.request.created');
+        $data['message'] = __('responses.removal_request.created');
 
         return response()->json($data, 201);
     }
