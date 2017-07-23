@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\Opinion\DeferOpinion;
 use App\Jobs\RemovalRequest\ApproveNonManifestedNationalRemovalRequest;
 use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
@@ -84,8 +85,27 @@ class RemovalRequestTest extends TestCase
         $removal_request = create(RemovalRequest::class, ['status' => 'started']);
 
         $removal_request = dispatch(new ChooseRapporteur($removal_request->id, $this->user->id));
-        
+
         $this->assertInstanceOf(User::class, $removal_request->rapporteur);
         $this->assertEquals($removal_request->rapporteur->id, $this->user->id);
+    }
+
+    /** @test */
+    function a_removal_request_change_the_status_after_a_opinion_deferred()
+    {
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'released']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'positive'])->toArray();
+        $opinion         = dispatch(new DeferOpinion($data));
+
+        $this->assertEquals('approved-di', $opinion->removalRequest->status);
+
+
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'released']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'negative'])->toArray();
+        $opinion         = dispatch(new DeferOpinion($data));
+
+        $this->assertEquals('disapproved', $opinion->removalRequest->status);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Opinion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OpinionManifestAgainstFormRequest extends FormRequest
+class ManifestAgainstFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

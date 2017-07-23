@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Request;
+namespace Tests\Feature\RemovalRequest;
 
 use App\Enums\RemovalRequestStatus;
 use App\Opinion;
 use App\RemovalRequest;
 use Tests\Feature\FeatureTestCase;
 
-class RemovalRequestManifestAgainstTest extends FeatureTestCase
+class ManifestAgainstRemovalRequestTest extends FeatureTestCase
 {
 
     /** @test */
@@ -28,9 +28,9 @@ class RemovalRequestManifestAgainstTest extends FeatureTestCase
     }
 
     /** @test */
-    function a_professor_only_can_manifest_against_a_removal_request_released()
+    function a_professor_only_can_manifest_against_a_released_removal_request()
     {
-        $status          = array_random(RemovalRequestStatus::keys('released'));
+        $status          = array_random(RemovalRequestStatus::keys(['released']));
         $removal_request = create(RemovalRequest::class, ['type' => 'national', 'status' => $status]);
         $data            = make(Opinion::class)->toArray();
 

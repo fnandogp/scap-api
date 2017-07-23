@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\RemovalRequest;
 
 use App\RemovalRequest;
+use Tests\Feature\FeatureTestCase;
 
 class RemovalRequestCreateTest extends FeatureTestCase
 {

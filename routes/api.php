@@ -37,6 +37,8 @@ Route::group(['middleware' => 'cors'], function () {
                  ->name('removal-request.manifest-against');
             Route::patch('/removal-requests/{removal_request}/choose-rapporteur', 'RemovalRequestController@chooseRapporteur')
                  ->name('removal-request.choose-rapporteur');
+            Route::post('/removal-requests/{removal_request}/defer-opinion', 'OpinionController@defer')
+                 ->name('removal-request.defer-opinion');
         });
     });
 });
