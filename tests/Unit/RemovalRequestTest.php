@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Jobs\Opinion\DeferOpinion;
+use App\Jobs\Opinion\RegisterOpinion;
 use App\Jobs\RemovalRequest\ApproveNonManifestedNationalRemovalRequest;
 use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
@@ -108,4 +109,47 @@ class RemovalRequestTest extends TestCase
 
         $this->assertEquals('disapproved', $opinion->removalRequest->status);
     }
+
+    /** @test */
+    function a_removal_request_change_the_status_after_the_ct_opinion_registered()
+    {
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'approved-di']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'positive', 'registered_for' => 'ct'])
+            ->toArray();
+        $opinion         = dispatch(new RegisterOpinion($data));
+
+        $this->assertEquals('approved-ct', $opinion->removalRequest->status);
+
+
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'approved-di']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'negative', 'registered_for' => 'prppg'])
+            ->toArray();
+        $opinion         = dispatch(new DeferOpinion($data));
+
+        $this->assertEquals('disapproved', $opinion->removalRequest->status);
+    }
+
+    /** @test */
+    function a_removal_request_change_the_status_after_the_prppg_opinion_registered()
+    {
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'approved-ct']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'positive', 'registered_for' => 'prppg'])
+            ->toArray();
+        $opinion         = dispatch(new RegisterOpinion($data));
+
+        $this->assertEquals('approved-prppg', $opinion->removalRequest->status);
+
+
+        $removal_request = create(RemovalRequest::class, ['type' => 'international', 'status' => 'approved-ct']);
+        $data            = make(Opinion::class,
+            ['removal_request_id' => $removal_request->id, 'type' => 'negative', 'registered_for' => 'prppg'])
+            ->toArray();
+        $opinion         = dispatch(new DeferOpinion($data));
+
+        $this->assertEquals('disapproved', $opinion->removalRequest->status);
+    }
+
 }

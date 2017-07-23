@@ -27,6 +27,12 @@ Route::group(['middleware' => 'cors'], function () {
             Route::patch('/removal-requests/{removal_request}/register-voting-result',
                 'RemovalRequestController@registerVotingResult')
                  ->name('removal-request.register-voting-result');
+            Route::post('/removal-requests/{removal_request}/register-ct-opinion',
+                'OpinionController@registerCt')
+                 ->name('removal-request.register-ct-opinion');
+            Route::post('/removal-requests/{removal_request}/register-prppg-opinion',
+                'OpinionController@registerPrppg')
+                 ->name('removal-request.register-prppg-opinion');
         });
 
         Route::group(['middleware' => 'role:admin|professor'], function () {
@@ -35,7 +41,8 @@ Route::group(['middleware' => 'cors'], function () {
                  ->name('removal-request.create');
             Route::post('/removal-requests/{removal_request}/manifest-against', 'OpinionController@manifestAgainst')
                  ->name('removal-request.manifest-against');
-            Route::patch('/removal-requests/{removal_request}/choose-rapporteur', 'RemovalRequestController@chooseRapporteur')
+            Route::patch('/removal-requests/{removal_request}/choose-rapporteur',
+                'RemovalRequestController@chooseRapporteur')
                  ->name('removal-request.choose-rapporteur');
             Route::post('/removal-requests/{removal_request}/defer-opinion', 'OpinionController@defer')
                  ->name('removal-request.defer-opinion');

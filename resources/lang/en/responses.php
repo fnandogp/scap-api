@@ -46,5 +46,12 @@ return [
 
     'mandates' => [
         'created' => 'New mandate created successfully.'
+    ],
+
+    'opinion' => [
+        'manifested_against' => 'Manifest created successfully.',
+        'deferred'           => 'Opinion deferred successfully.',
+        'ct-registered'      => 'Opinion of CT registered successfully.',
+        'prppg-registered'   => 'Opinion of PRPPG registered successfully.'
     ]
 ];

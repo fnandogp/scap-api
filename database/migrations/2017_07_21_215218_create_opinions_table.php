@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateOpinionsTable extends Migration
 {
@@ -18,8 +18,10 @@ class CreateOpinionsTable extends Migration
             $table->integer('removal_request_id')->unsigned();
             $table->foreign('removal_request_id')->references('id')->on('removal_requests');
 
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->string('registered_for')->nullable();
 
             $table->string('type');
             $table->text('reason');

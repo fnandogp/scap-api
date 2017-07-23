@@ -9,6 +9,7 @@ class Opinion extends Model
     protected $fillable = [
         'removal_request_id',
         'user_id',
+        'registered_for',
         'type',
         'reason'
     ];

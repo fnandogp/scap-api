@@ -49,13 +49,14 @@ $factory->define(\App\Mandate::class, function (Faker\Generator $faker) {
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(\App\Opinion::class, function (Faker\Generator $faker) {
     return [
-        'removal_request_id'  => function () {
+        'removal_request_id' => function () {
             return factory(\App\RemovalRequest::class)->create();
         },
-        'user_id'     => function () {
+        'user_id'            => function () {
             return factory(\App\User::class)->create();
         },
-        'type'        => array_random(\App\Enums\OpinionType::keys()),
-        'reason'      => $faker->paragraph
+        'registered_for'     => null,
+        'type'               => array_random(\App\Enums\OpinionType::keys()),
+        'reason'             => $faker->paragraph
     ];
 });
