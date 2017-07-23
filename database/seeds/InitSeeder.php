@@ -1,6 +1,6 @@
 <?php
 
-use App\Permission;
+use App\Mandate;
 use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -55,6 +55,15 @@ class InitSeeder extends Seeder
             'enrollment' => '2222222222'
         ]);
         $professor->attachRole($professor_role);
+
+        $department_chief = User::create([
+            'name'       => 'Department Chief',
+            'email'      => 'department.chief@example.com',
+            'password'   => bcrypt('secret'),
+            'enrollment' => '3333333333'
+        ]);
+        $department_chief->attachRole($professor_role);
+        factory(Mandate::class)->create(['user_id' => $department_chief->id, 'date_to' => null]);
 
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RemovalRequest\ChooseRapporteurFormRequest;
 use App\Http\Requests\RemovalRequest\RegisterVotingResultFormRequest;
 use App\Http\Requests\RequestCreateFormRequest;
+use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Jobs\RemovalRequest\RegisterVotingResult;
 use App\RemovalRequest;
@@ -60,12 +62,32 @@ class RemovalRequestController extends Controller
         $data = array_add($data, 'removal_request_id', $removal_request->id);
 
         $removal_request = dispatch(new RegisterVotingResult($data));
-        
+
         $data = fractal()
             ->item($removal_request, new RemovalRequestTransformer)
             ->toArray();
 
         $data['message'] = __('responses.removal_request.voting_registered');
+
+        return response()->json($data, 200);
+    }
+
+
+    /**
+     * @param ChooseRapporteurFormRequest $request
+     * @param RemovalRequest $removal_request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function chooseRapporteur(ChooseRapporteurFormRequest $request, RemovalRequest $removal_request)
+    {
+        $removal_request = dispatch(new ChooseRapporteur($removal_request->id, $request->rapporteur_id));
+
+        $data = fractal()
+            ->item($removal_request, new RemovalRequestTransformer)
+            ->toArray();
+
+        $data['message'] = __('responses.removal_request.rapporteur_changed');
 
         return response()->json($data, 200);
     }

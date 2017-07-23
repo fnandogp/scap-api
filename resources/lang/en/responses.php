@@ -37,10 +37,11 @@ return [
     ],
 
     'removal_request' => [
-        'created'           => 'Removal request created successfully.',
-        'archived'          => 'Removal request archived successfully.',
-        'canceled'          => 'Removal request canceled successfully.',
-        'voting_registered' => 'Voting result registered successfully.',
+        'created'            => 'Removal request created successfully.',
+        'archived'           => 'Removal request archived successfully.',
+        'canceled'           => 'Removal request canceled successfully.',
+        'voting_registered'  => 'Voting result registered successfully.',
+        'rapporteur_changed' => 'Rapporteur changed successfully.',
     ],
 
     'mandates' => [

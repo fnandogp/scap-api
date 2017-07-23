@@ -37,6 +37,8 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('files');
+        Schema::enableForeignKeyConstraints();
     }
 }

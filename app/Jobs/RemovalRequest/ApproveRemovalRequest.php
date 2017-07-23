@@ -32,10 +32,12 @@ class ApproveRemovalRequest
      *
      * @param RemovalRequestRepository $repo
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function handle(RemovalRequestRepository $repo)
     {
-        $repo->updateStatus($this->id, $this->status);
+        $removal_request = $repo->updateStatus($this->id, $this->status);
+
+        return $removal_request;
     }
 }

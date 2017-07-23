@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Jobs\RemovalRequest\ApproveNonManifestedNationalRemovalRequest;
+use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Opinion;
 use App\RemovalRequest;
@@ -65,5 +66,26 @@ class RemovalRequestTest extends TestCase
 
         dispatch(new ApproveNonManifestedNationalRemovalRequest);
         $this->assertEquals(0, $repo->getNonManifestedNationalReleased()->count());
+    }
+
+    /** @test */
+    function it_update_the_status_of_a_removal_request_after_the_choose_of_rapporteur()
+    {
+        $removal_request = create(RemovalRequest::class, ['status' => 'started']);
+
+        $removal_request = dispatch(new ChooseRapporteur($removal_request->id, $this->user->id));
+
+        $this->assertEquals('released', $removal_request->status);
+    }
+
+    /** @test */
+    function a_removal_request_has_a_rapporteur_after_the_choose()
+    {
+        $removal_request = create(RemovalRequest::class, ['status' => 'started']);
+
+        $removal_request = dispatch(new ChooseRapporteur($removal_request->id, $this->user->id));
+        
+        $this->assertInstanceOf(User::class, $removal_request->rapporteur);
+        $this->assertEquals($removal_request->rapporteur->id, $this->user->id);
     }
 }

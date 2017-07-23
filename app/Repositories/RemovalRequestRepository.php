@@ -40,4 +40,19 @@ class RemovalRequestRepository extends BaseRepository
 
         return $removal_request;
     }
+
+    /**
+     * @param $id
+     * @param $user_id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function setRapporteur($id, $user_id)
+    {
+        $removal_request = $this->find($id);
+        $removal_request->fill(['rapporteur_id' => $user_id]);
+        $removal_request->save();
+
+        return $removal_request;
+    }
 }

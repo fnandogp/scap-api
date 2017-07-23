@@ -24,6 +24,7 @@ class RemovalRequest extends Model
         'city',
         'event_from',
         'event_to',
+        'rapporteur_id',
         'judgment_at',
         'canceled_at',
         'cancellation_reason',
@@ -54,6 +55,16 @@ class RemovalRequest extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * The rapporteur in case of international removal request
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function rapporteur()
+    {
+        return $this->belongsTo(User::class, 'rapporteur_id');
     }
 
     /**

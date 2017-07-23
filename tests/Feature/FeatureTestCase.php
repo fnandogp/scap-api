@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Repositories\UserRepository;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class FeatureTestCase extends TestCase
@@ -20,6 +19,10 @@ class FeatureTestCase extends TestCase
      * @var
      */
     protected $professor;
+    /**
+     * @var
+     */
+    protected $department_chief;
 
     protected function setUp()
     {
@@ -27,9 +30,10 @@ class FeatureTestCase extends TestCase
 
         $user_repo = new UserRepository;
 
-        $this->admin     = $user_repo->findByEmail('admin@example.com');
-        $this->secretary = $user_repo->findByEmail('secretary@example.com');
-        $this->professor = $user_repo->findByEmail('professor@example.com');
+        $this->admin            = $user_repo->findByEmail('admin@example.com');
+        $this->secretary        = $user_repo->findByEmail('secretary@example.com');
+        $this->professor        = $user_repo->findByEmail('professor@example.com');
+        $this->department_chief = $user_repo->findByEmail('department.chief@example.com');
     }
 
     /**

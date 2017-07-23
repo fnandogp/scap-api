@@ -2,27 +2,20 @@
 
 namespace App\Repositories;
 
-use App\User;
+use App\Role;
 
-class RoleRepository
+class RoleRepository extends BaseRepository
 {
-    public function __construct()
-    {
-        $this->query = User::query();
-    }
-
     /**
-     * Get a role by the name
-     *
-     * @param $name
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @var string
      */
-    public function get($name)
+    protected $model_class = Role::class;
+
+    public function findByName($name)
     {
-        return $this->query
-            ->where('name', $name)
-            ->get();
+        return $this->newQuery()
+                    ->where('name', $name)
+                    ->first();
     }
 
 }

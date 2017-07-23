@@ -33,10 +33,8 @@ class CreateMandatesTable extends Migration
      */
     public function down()
     {
-        Schema::table('mandates', function (Blueprint $table) {
-            $table->dropForeign('mandates_user_id_foreign');
-        });
-
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('mandates');
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -32,6 +32,9 @@ class CreateRemovalRequestsTable extends Migration
             $table->timestamp('event_from')->nullable();
             $table->timestamp('event_to')->nullable();
 
+            $table->integer('rapporteur_id')->unsigned()->nullable();
+            $table->foreign('rapporteur_id')->references('id')->on('users');
+
             $table->timestamp('judgment_at')->nullable();
 
             $table->timestamp('canceled_at')->nullable();
@@ -49,6 +52,8 @@ class CreateRemovalRequestsTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('removal_requests');
+        Schema::enableForeignKeyConstraints();
     }
 }
