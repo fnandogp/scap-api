@@ -37,6 +37,8 @@ Route::group(['middleware' => 'cors'], function () {
 
         Route::group(['middleware' => 'role:admin|professor'], function () {
             // Requests
+            Route::get('/removal-requests', 'RemovalRequestController@index')
+                 ->name('removal-request.index');
             Route::post('/removal-requests', 'RemovalRequestController@store')
                  ->name('removal-request.create');
             Route::post('/removal-requests/{removal_request}/manifest-against', 'OpinionController@manifestAgainst')

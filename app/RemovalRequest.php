@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RemovalRequest extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
@@ -44,8 +43,9 @@ class RemovalRequest extends Model
         'canceled_at',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
+
 
     /**
      * The author of the removal request
@@ -57,6 +57,7 @@ class RemovalRequest extends Model
         return $this->belongsTo(User::class);
     }
 
+
     /**
      * The rapporteur in case of international removal request
      *
@@ -66,6 +67,7 @@ class RemovalRequest extends Model
     {
         return $this->belongsTo(User::class, 'rapporteur_id');
     }
+
 
     /**
      * Opinions deferred to the removal request

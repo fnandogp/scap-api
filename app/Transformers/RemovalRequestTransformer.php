@@ -21,9 +21,10 @@ class RemovalRequestTransformer extends TransformerAbstract
      */
     public function transform(RemovalRequest $removal_request)
     {
+        $user_transformer = new UserTransformer;
+
         return [
-            'id'                  => (int)$removal_request->id,
-            'user_id'             => (int)$removal_request->user->id,
+            'id'                  => (int) $removal_request->id,
             'type'                => RemovalRequestType::get($removal_request->type),
             'status'              => RemovalRequestStatus::get($removal_request->status),
             'removal_from'        => $removal_request->removal_from->toDateTimeString(),
@@ -39,7 +40,9 @@ class RemovalRequestTransformer extends TransformerAbstract
             'cancellation_reason' => $removal_request->cancellation_reason,
 
             'created_at' => $removal_request->created_at->toDateTimeString(),
-            'updated_at' => $removal_request->updated_at->toDateTimeString()
+            'updated_at' => $removal_request->updated_at->toDateTimeString(),
+
+            'user'                => $user_transformer->transform($removal_request->user),
         ];
     }
 }

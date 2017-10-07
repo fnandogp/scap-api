@@ -9,10 +9,40 @@ use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Jobs\RemovalRequest\RegisterVotingResult;
 use App\RemovalRequest;
+use App\Repositories\RemovalRequestRepository;
 use App\Transformers\RemovalRequestTransformer;
 
 class RemovalRequestController extends Controller
 {
+    /**
+     * @var \App\Repositories\RemovalRequestRepository
+     */
+    private $removal_requests;
+
+
+    public function __construct(RemovalRequestRepository $removal_request_repo)
+    {
+        $this->removal_requests = $removal_request_repo;
+    }
+
+
+    /**
+     * Index removal requests
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $users = $this->removal_requests->getAll();
+
+        $data = fractal()
+            ->collection($users, new RemovalRequestTransformer)
+            ->parseIncludes(['user'])
+            ->toArray();
+
+        return response()->json($data, 200);
+    }
+
 
     /**
      * Create a new request
@@ -32,7 +62,7 @@ class RemovalRequestController extends Controller
             'city',
             'event_from',
             'event_to',
-            'onus'
+            'onus',
         ]);
 
         $input['user_id'] = \Auth::user()->id;
@@ -47,6 +77,7 @@ class RemovalRequestController extends Controller
 
         return response()->json($data, 201);
     }
+
 
     /**
      * Register the result of the voting section

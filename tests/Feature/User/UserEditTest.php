@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\User;
+use Tests\Feature\FeatureTestCase;
 
 class UserEditTest extends FeatureTestCase
 {
