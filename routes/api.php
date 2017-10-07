@@ -39,6 +39,8 @@ Route::group(['middleware' => 'cors'], function () {
             // Requests
             Route::get('/removal-requests', 'RemovalRequestController@index')
                  ->name('removal-request.index');
+            Route::get('/removal-requests/{removal_request}', 'RemovalRequestController@show')
+                 ->name('removal-request.show');
             Route::post('/removal-requests', 'RemovalRequestController@store')
                  ->name('removal-request.create');
             Route::post('/removal-requests/{removal_request}/manifest-against', 'OpinionController@manifestAgainst')

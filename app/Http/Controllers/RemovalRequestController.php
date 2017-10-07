@@ -33,11 +33,26 @@ class RemovalRequestController extends Controller
      */
     public function index()
     {
-        $users = $this->removal_requests->getAll();
+        $removal_requests = $this->removal_requests->getAll();
 
         $data = fractal()
-            ->collection($users, new RemovalRequestTransformer)
-            ->parseIncludes(['user'])
+            ->collection($removal_requests, new RemovalRequestTransformer)
+            ->toArray();
+
+        return response()->json($data, 200);
+    }
+
+
+    /**
+     * Show a removal request
+     *
+     * @param \App\RemovalRequest $removal_request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(RemovalRequest $removal_request)
+    {
+        $data = fractal()
+            ->item($removal_request, new RemovalRequestTransformer)
             ->toArray();
 
         return response()->json($data, 200);
