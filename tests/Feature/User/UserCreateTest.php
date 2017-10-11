@@ -117,4 +117,21 @@ class UserCreateTest extends FeatureTestCase
             ])
             ->assertStatus(422);
     }
+
+
+    /** @test */
+    function it_fails_to_create_on_missing_field()
+    {
+        $this
+            ->post("/users", [], $this->getCustomHeader($this->admin))
+            ->assertJsonStructure([
+                'errors' => [
+                    'name',
+                    'email',
+                    'enrollment',
+                    'password',
+                ],
+            ])
+            ->assertStatus(422);
+    }
 }
