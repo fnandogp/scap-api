@@ -6,10 +6,16 @@ use App\Enums\RemovalRequestOnus;
 use App\Enums\RemovalRequestStatus;
 use App\Enums\RemovalRequestType;
 use App\RemovalRequest;
+use League\Fractal\Scope;
 use League\Fractal\TransformerAbstract;
 
 class RemovalRequestTransformer extends TransformerAbstract
 {
+    protected $defaultIncludes = [
+        'user',
+    ];
+
+
     /**
      * A Fractal transformer.
      *
@@ -41,8 +47,16 @@ class RemovalRequestTransformer extends TransformerAbstract
 
             'created_at' => $removal_request->created_at->toDateTimeString(),
             'updated_at' => $removal_request->updated_at->toDateTimeString(),
-
-            'user'                => $user_transformer->transform($removal_request->user),
         ];
+    }
+
+
+    /**
+     * @param \App\RemovalRequest $removal_request
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeUser(RemovalRequest $removal_request)
+    {
+        return $this->item($removal_request->user, new UserTransformer);
     }
 }

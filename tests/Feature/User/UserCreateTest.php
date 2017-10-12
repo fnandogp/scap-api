@@ -15,6 +15,7 @@ class UserCreateTest extends FeatureTestCase
             'email'      => 'john@doe.com',
             'password'   => bcrypt('secret'),
             'enrollment' => '1234567890',
+            'roles'      => ['admin'],
         ];
 
         $this
@@ -24,6 +25,7 @@ class UserCreateTest extends FeatureTestCase
                     'name'       => 'John Doe',
                     'email'      => 'john@doe.com',
                     'enrollment' => '1234567890',
+                    'roles'      => ['admin'],
                 ],
                 'message' => __('responses.user.created'),
             ])
@@ -39,6 +41,7 @@ class UserCreateTest extends FeatureTestCase
             'email'      => 'john@doe.com',
             'password'   => bcrypt('secret'),
             'enrollment' => '1234567890',
+            'roles'      => ['admin'],
         ];
 
         $this
@@ -54,22 +57,6 @@ class UserCreateTest extends FeatureTestCase
         $this
             ->post('/users', $data, $this->getCustomHeader($this->professor))
             ->assertStatus(403);
-    }
-
-
-    /** @test */
-    public function it_fails_to_create_a_user_with_empty_data()
-    {
-        $this
-            ->post("/users", [], $this->getCustomHeader($this->admin))
-            ->assertJson([
-                'errors' => [
-                    'name'       => [__('validation.required', ['attribute' => 'name'])],
-                    'email'      => [__('validation.required', ['attribute' => 'email'])],
-                    'enrollment' => [__('validation.required', ['attribute' => 'enrollment'])],
-                ],
-            ])
-            ->assertStatus(422);
     }
 
 
@@ -130,6 +117,7 @@ class UserCreateTest extends FeatureTestCase
                     'email',
                     'enrollment',
                     'password',
+                    'roles',
                 ],
             ])
             ->assertStatus(422);

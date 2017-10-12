@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\UserRole;
 use App\Http\Requests\BaseFormRequest;
 
 class UserCreateFormRequest extends BaseFormRequest
@@ -29,6 +30,8 @@ class UserCreateFormRequest extends BaseFormRequest
             'email'      => 'required|email|unique:users,email|max:255',
             'enrollment' => 'required|max:15',
             'password'   => 'required',
+            'roles'      => 'required|array',
+            'roles.*'    => '|in:'.UserRole::implode(),
         ];
     }
 }

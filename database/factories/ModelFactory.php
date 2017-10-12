@@ -39,7 +39,7 @@ $factory->define(\App\RemovalRequest::class, function (Faker\Generator $faker) {
 $factory->define(\App\Mandate::class, function (Faker\Generator $faker) {
     return [
         'user_id'   => function () {
-            return factory(\App\User::class)->create();
+            return factory(\App\User::class)->create()->id;
         },
         'date_from' => $faker->dateTimeBetween('-1 year', '-1 month'),
         'date_to'   => $faker->boolean ? null : $faker->dateTimeBetween('-1 mouth', 'now'),
@@ -57,6 +57,6 @@ $factory->define(\App\Opinion::class, function (Faker\Generator $faker) {
         },
         'registered_for'     => null,
         'type'               => array_random(\App\Enums\OpinionType::keys()),
-        'reason'             => $faker->paragraph
+        'reason'             => $faker->paragraph,
     ];
 });

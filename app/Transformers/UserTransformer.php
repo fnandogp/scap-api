@@ -17,12 +17,24 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user)
     {
         return [
-            'id'         => (int)$user->id,
+            'id'         => (int) $user->id,
             'name'       => $user->name,
             'email'      => $user->email,
             'enrollment' => $user->enrollment,
             'created_at' => $user->created_at->toDateTimeString(),
-            'updated_at' => $user->updated_at->toDateTimeString()
+            'updated_at' => $user->updated_at->toDateTimeString(),
+            'roles'      => $this->getRoles($user),
         ];
     }
+
+
+    /**
+     * @param \App\User $user
+     * @return mixed
+     */
+    private function getRoles(User $user)
+    {
+        return $user->roles
+            ->pluck('name');
+}
 }

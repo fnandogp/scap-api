@@ -27,7 +27,7 @@ class InitSeeder extends Seeder
 
         $professor_role = Role::create([
             'name'         => 'professor',
-            'display_name' => 'professor',
+            'display_name' => 'Professor',
         ]);
 
 

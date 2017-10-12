@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class RemovalRequestType extends BaseEnum
+class UserRole extends BaseEnum
 {
     /**
      * RemovalRequestType constructor.
@@ -10,8 +10,9 @@ class RemovalRequestType extends BaseEnum
     function __construct()
     {
         $this->collection = collect([
-            'national'      => 'National',
-            'international' => 'International',
+            'admin'     => 'Administrator',
+            'professor' => 'Professor',
+            'secretary' => 'Secretary',
         ]);
     }
 }
