@@ -14,6 +14,7 @@ abstract class BaseRepository
      */
     protected $model_class;
 
+
     /**
      * @return EloquentQueryBuilder|QueryBuilder
      */
@@ -22,15 +23,18 @@ abstract class BaseRepository
         return app($this->model_class)->newQuery();
     }
 
+
     /**
-     * @param $take
-     * @param $paginate
-     *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|EloquentCollection|static[]
+     * @param null $query
+     * @param int $take
+     * @param bool $paginate
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection|static[]
      */
-    protected function doQuery($take = 15, $paginate = true)
+    protected function doQuery($query = null, $take = 15, $paginate = true)
     {
-        $query = $this->newQuery();
+        if (is_null($query)) {
+            $query = $this->newQuery();
+        }
 
         if ($paginate == true) {
             return $query->paginate($take);
@@ -42,6 +46,7 @@ abstract class BaseRepository
 
         return $query->get();
     }
+
 
     /**
      * Returns all records.
@@ -55,8 +60,9 @@ abstract class BaseRepository
      */
     public function getAll($take = 15, $paginate = true)
     {
-        return $this->doQuery($take, $paginate);
+        return $this->doQuery(null, $take, $paginate);
     }
+
 
     /**
      * Retrieves a record by his id
@@ -70,11 +76,14 @@ abstract class BaseRepository
     public function find($id, $fail = true)
     {
         if ($fail) {
-            return $this->newQuery()->findOrFail($id);
+            return $this->newQuery()
+                        ->findOrFail($id);
         }
 
-        return $this->newQuery()->find($id);
+        return $this->newQuery()
+                    ->find($id);
     }
+
 
     /**
      * List the
@@ -86,8 +95,10 @@ abstract class BaseRepository
      */
     public function lists($column, $key = null)
     {
-        return $this->newQuery()->lists($column, $key);
+        return $this->newQuery()
+                    ->lists($column, $key);
     }
+
 
     /**
      * Given some condition, search for results
@@ -107,6 +118,7 @@ abstract class BaseRepository
         return $query->get();
     }
 
+
     /**
      * Create a model class instance
      *
@@ -118,6 +130,7 @@ abstract class BaseRepository
     {
         return app($this->model_class)::create($data);
     }
+
 
     /**
      * Update the model class instance
@@ -135,6 +148,7 @@ abstract class BaseRepository
 
         return $object;
     }
+
 
     /**
      * Delete the model class instance

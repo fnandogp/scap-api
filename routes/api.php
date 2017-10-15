@@ -1,12 +1,15 @@
 <?php
 Route::group(['middleware' => 'cors'], function () {
 
-    Route::post('/auth/login', 'Auth\AuthController@login')->name('auth.login');
+    Route::post('/auth/login', 'Auth\AuthController@login')
+         ->name('auth.login');
 
     Route::group(['middleware' => 'jwt.auth'], function () {
 
-        Route::get('/auth/me', 'Auth\AuthController@me')->name('auth.me');
-        Route::delete('/auth/logout', 'Auth\AuthController@logout')->name('auth.logout');
+        Route::get('/auth/me', 'Auth\AuthController@me')
+             ->name('auth.me');
+        Route::delete('/auth/logout', 'Auth\AuthController@logout')
+             ->name('auth.logout');
 
         Route::group(['middleware' => 'role:admin|secretary'], function () {
             // Users
@@ -51,5 +54,11 @@ Route::group(['middleware' => 'cors'], function () {
             Route::post('/removal-requests/{removal_request}/defer-opinion', 'OpinionController@defer')
                  ->name('removal-request.defer-opinion');
         });
+
+        Route::prefix('me')
+             ->group(function () {
+                 Route::get('/removal-requests', 'RemovalRequestController@meIndex')
+                      ->name('me.removal-request.index');
+             });
     });
 });

@@ -39,5 +39,23 @@ class RemovalRequestIndexTest extends FeatureTestCase
             ])
             ->assertStatus(200);
     }
+
+
+    /** @test */
+    function it_index_all_removal_request_created_by_the_current_user()
+    {
+        create(RemovalRequest::class, [], 2);
+
+        create(RemovalRequest::class, [
+            'user_id' => $this->admin->id,
+        ]);
+
+        $response = $this
+            ->get('/me/removal-requests', [], $this->getCustomHeader($this->admin))
+            ->assertStatus(200)
+            ->decodeResponseJson();
+
+        $this->assertCount(1, $response['data']);
+    }
 }
 

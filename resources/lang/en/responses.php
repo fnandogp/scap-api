@@ -44,7 +44,7 @@ return [
         'rapporteur_changed' => 'Rapporteur changed successfully.',
     ],
 
-    'mandates' => [
+    'mandate' => [
         'created' => 'New mandate created successfully.'
     ],
 

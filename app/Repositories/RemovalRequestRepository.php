@@ -11,6 +11,7 @@ class RemovalRequestRepository extends BaseRepository
      */
     protected $model_class = RemovalRequest::class;
 
+
     /**
      * Get only the released national removal requests
      */
@@ -22,6 +23,7 @@ class RemovalRequestRepository extends BaseRepository
                     ->has('opinions', '<', 1)
                     ->get();
     }
+
 
     /**
      * Set approved status to a removal request
@@ -41,6 +43,7 @@ class RemovalRequestRepository extends BaseRepository
         return $removal_request;
     }
 
+
     /**
      * @param $id
      * @param $user_id
@@ -54,5 +57,16 @@ class RemovalRequestRepository extends BaseRepository
         $removal_request->save();
 
         return $removal_request;
+    }
+
+
+    public function getAllMine($take = 15, $paginate = true)
+    {
+        $user = \Auth::user();
+
+        $query = $this->newQuery();
+        $query->where('user_id', $user->id);
+
+        return $this->doQuery($query, $take, $paginate);
     }
 }

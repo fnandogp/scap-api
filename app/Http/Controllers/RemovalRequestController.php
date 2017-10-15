@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RemovalRequest\ChooseRapporteurFormRequest;
 use App\Http\Requests\RemovalRequest\RegisterVotingResultFormRequest;
-use App\Http\Requests\RequestCreateFormRequest;
+use App\Http\Requests\RemovalRequest\RemovalRequestCreateFormRequest;
 use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Jobs\RemovalRequest\RegisterVotingResult;
@@ -44,6 +44,23 @@ class RemovalRequestController extends Controller
 
 
     /**
+     * Index removal requests of current user
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function meIndex()
+    {
+        $removal_requests = $this->removal_requests->getAllMine();
+
+        $data = fractal()
+            ->collection($removal_requests, new RemovalRequestTransformer)
+            ->toArray();
+
+        return response()->json($data, 200);
+    }
+
+
+    /**
      * Show a removal request
      *
      * @param \App\RemovalRequest $removal_request
@@ -62,11 +79,10 @@ class RemovalRequestController extends Controller
     /**
      * Create a new request
      *
-     * @param RequestCreateFormRequest $request
-     *
+     * @param \App\Http\Requests\RemovalRequest\RemovalRequestCreateFormRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RequestCreateFormRequest $request)
+    public function store(RemovalRequestCreateFormRequest $request)
     {
         $input = $request->only([
             'type',

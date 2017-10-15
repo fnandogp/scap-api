@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Repositories\MandateRepository;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
@@ -19,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'enrollment'
+        'enrollment',
     ];
 
     /**
@@ -33,8 +34,9 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'is_department_chief'
+        'is_department_chief',
     ];
+
 
     public function getIsDepartmentChiefAttribute()
     {
@@ -42,6 +44,7 @@ class User extends Authenticatable
 
         return $repo->isActive($this->attributes['id']);
     }
+
 
     /**
      * RemovalRequest that have been created by the user
@@ -51,8 +54,10 @@ class User extends Authenticatable
         return $this->hasMany(RemovalRequest::class);
     }
 
+
     /**
      * Mandates of the user
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function mandates()
