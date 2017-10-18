@@ -52,7 +52,7 @@ class RemovalRequestTest extends TestCase
 
         $request = dispatch(new CreateRemovalRequest($data));
 
-        $this->assertEquals('initial', $request->status);
+        $this->assertEquals('started', $request->status);
     }
 
     /** @test */

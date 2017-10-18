@@ -36,7 +36,7 @@ class OpinionController extends Controller
             ->item($opinion, new OpinionTransformer)
             ->toArray();
 
-        $data['message'] = __('responses.opinion.manifest-against');
+        $data['message'] = __('responses.opinion.manifested_against');
 
         return response()->json($data, 201);
     }

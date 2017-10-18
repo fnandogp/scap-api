@@ -15,18 +15,15 @@ class DeferOpinionFormRequest extends FormRequest
     public function authorize()
     {
         $removal_request = request()->removal_request;
-        $user            = \Auth::user();
+        $user = \Auth::user();
 
-        if ($removal_request->type != 'international' && $removal_request->status != 'released') {
+        if ($removal_request->type != 'international' || $removal_request->status != 'released') {
             return false;
         }
 
-        if ( ! $user->hasRole('admin') && $removal_request->rapporteur->id != $user->id) {
-            return false;
-        }
-
-        return true;
+        return $user->hasRole('admin') || ($removal_request->rapporteur && $removal_request->rapporteur->id == $user->id);
     }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -36,8 +33,8 @@ class DeferOpinionFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'type'   => 'required|in:' . OpinionType::implode(),
-            'reason' => 'required|max:1024'
+            'type'   => 'required|in:'.OpinionType::implode(),
+            'reason' => 'required|max:1024',
         ];
     }
 }

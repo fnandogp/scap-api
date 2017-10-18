@@ -94,6 +94,19 @@ class RemovalRequest extends Model
 
 
     /**
+     * removal_from accessor
+     *
+     * @param $value
+     * @return string
+     */
+    public function getRemovalFromAttribute($value)
+    {
+        return Carbon::parse($value)
+                     ->format('Y-m-d');
+    }
+
+
+    /**
      * removal_to mutator
      *
      * @param $value
@@ -102,6 +115,19 @@ class RemovalRequest extends Model
     {
         $this->attributes['removal_to'] = Carbon::parse($value)
                                                 ->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * removal_to acessor
+     *
+     * @param $value
+     * @return string
+     */
+    public function getRemovalToAttribute($value)
+    {
+        return Carbon::parse($value)
+                     ->format('Y-m-d');
     }
 
 
@@ -118,6 +144,19 @@ class RemovalRequest extends Model
 
 
     /**
+     * event_from mutator
+     *
+     * @param $value
+     * @return string
+     */
+    public function getEventFromAttribute($value)
+    {
+        return Carbon::parse($value)
+                     ->format('Y-m-d');
+    }
+
+
+    /**
      * event_to mutator
      *
      * @param $value
@@ -126,5 +165,18 @@ class RemovalRequest extends Model
     {
         $this->attributes['event_to'] = Carbon::parse($value)
                                               ->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * event_to mutator
+     *
+     * @param $value
+     * @return string
+     */
+    public function getEventToAttribute($value)
+    {
+        return Carbon::parse($value)
+                     ->format('Y-m-d');
     }
 }
