@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class RemovalRequest extends Model
@@ -79,11 +80,51 @@ class RemovalRequest extends Model
         return $this->hasMany(Opinion::class);
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-//     */
-//    public function files()
-//    {
-//        return $this->hasMany(File::class);
-//    }
+
+    /**
+     * removal_from mutator
+     *
+     * @param $value
+     */
+    public function setRemovalFromAttribute($value)
+    {
+        $this->attributes['removal_from'] = Carbon::parse($value)
+                                                  ->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * removal_to mutator
+     *
+     * @param $value
+     */
+    public function setRemovalToAttribute($value)
+    {
+        $this->attributes['removal_to'] = Carbon::parse($value)
+                                                ->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * event_from mutator
+     *
+     * @param $value
+     */
+    public function setEventFromAttribute($value)
+    {
+        $this->attributes['event_from'] = Carbon::parse($value)
+                                                ->format('Y-m-d H:i:s');
+    }
+
+
+    /**
+     * event_to mutator
+     *
+     * @param $value
+     */
+    public function setEventToAttribute($value)
+    {
+        $this->attributes['event_to'] = Carbon::parse($value)
+                                              ->format('Y-m-d H:i:s');
+    }
 }

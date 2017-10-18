@@ -4,7 +4,6 @@ namespace App\Enums;
 
 class RemovalRequestStatus extends BaseEnum
 {
-
     function __construct()
     {
         $this->collection = collect([
@@ -20,5 +19,4 @@ class RemovalRequestStatus extends BaseEnum
             'disapproved'    => 'Disapproved',
         ]);
     }
-
 }

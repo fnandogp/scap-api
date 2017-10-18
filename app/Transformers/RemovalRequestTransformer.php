@@ -27,8 +27,6 @@ class RemovalRequestTransformer extends TransformerAbstract
      */
     public function transform(RemovalRequest $removal_request)
     {
-        $user_transformer = new UserTransformer;
-
         return [
             'id'                  => (int) $removal_request->id,
             'type'                => RemovalRequestType::get($removal_request->type),

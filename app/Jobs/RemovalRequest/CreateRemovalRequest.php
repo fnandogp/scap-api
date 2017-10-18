@@ -41,7 +41,7 @@ class CreateRemovalRequest
      */
     public function handle(RemovalRequestRepository $repo)
     {
-        $this->data['status'] = $this->data['type'] == "national" ? 'released' : 'initial';
+        $this->data['status'] = $this->data['type'] == "national" ? 'released' : 'started';
 
         $request = $repo->create($this->data);
 

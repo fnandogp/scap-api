@@ -29,15 +29,14 @@ class RemovalRequestCreateFormRequest extends FormRequest
     {
         return [
             'type'           => 'required|in:'.RemovalRequestType::implode(),
-            'status'         => 'required|in:'.RemovalRequestStatus::implode(),
-            'removal_from'   => 'required|date|after:now',
-            'removal_to'     => 'required|date|after:removal_from',
+            'removal_from'   => 'required|date_format:Y-m-d|after:now',
+            'removal_to'     => 'required|date_format:Y-m-d|after:removal_from',
             'removal_reason' => 'required|string',
             'onus'           => 'required|in:'.RemovalRequestOnus::implode(),
             'event'          => 'required|string',
             'city'           => 'required|string',
-            'event_from'     => 'required|date|after:removal_from',
-            'event_to'       => 'required|date|after:event_from',
+            'event_from'     => 'required|date_format:Y-m-d|after:removal_from',
+            'event_to'       => 'required|date_format:Y-m-d||after:event_from|before:removal_to',
         ];
     }
 }
