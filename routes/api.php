@@ -45,6 +45,8 @@ Route::group(['middleware' => 'cors'], function () {
                  ->name('removal-request.show');
             Route::post('/removal-requests', 'RemovalRequestController@store')
                  ->name('removal-request.create');
+            Route::patch('/removal-requests/{removal_request}/cancel', 'RemovalRequestController@cancel')
+                 ->name('removal-request.cancel');
             Route::post('/removal-requests/{removal_request}/manifest-against', 'OpinionController@manifestAgainst')
                  ->name('removal-request.manifest-against');
             Route::patch('/removal-requests/{removal_request}/choose-rapporteur', 'RemovalRequestController@chooseRapporteur')

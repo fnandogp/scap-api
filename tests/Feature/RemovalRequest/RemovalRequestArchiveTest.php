@@ -15,7 +15,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'approved-prppg',
         ]);
 
-        $this->patch("removal-requests/{$removal_request->id}/archive", $this->getCustomHeader($this->admin))
+        $this->patch("removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->admin))
              ->assertJsonStructure(['data', 'message'])
              ->assertStatus(200);
 
@@ -24,7 +24,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'approved-prppg',
         ]);
 
-        $this->patch("removal-requests/{$removal_request->id}/archive", $this->getCustomHeader($this->secretary))
+        $this->patch("removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->secretary))
              ->assertJsonStructure(['data', 'message'])
              ->assertStatus(200);
     }
@@ -39,7 +39,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'started',
         ]);
 
-        $this->patch("removal-requests/{$removal_request->id}/archive", $this->getCustomHeader($this->secretary))
+        $this->patch("removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->secretary))
              ->assertStatus(403);
 
         // deny archive approved by di removal request
@@ -48,7 +48,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'approved-di',
         ]);
 
-        $this->patch("/removal-requests/{$removal_request->id}/archive")
+        $this->patch("/removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->secretary))
              ->assertStatus(403);
 
         // deny archive approved by ct removal request
@@ -57,7 +57,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'aprovved-ct',
         ]);
 
-        $this->patch("/removal-requests/{$removal_request->id}/archive")
+        $this->patch("/removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->secretary))
              ->assertStatus(403);
 
         // deny archive disapproved removal request
@@ -66,7 +66,7 @@ class RemovalRequestArchiveTest extends FeatureTestCase
             'status' => 'disapproved',
         ]);
 
-        $this->patch("/removal-requests/{$removal_request->id}/archive")
+        $this->patch("/removal-requests/{$removal_request->id}/archive", [], $this->getCustomHeader($this->secretary))
              ->assertStatus(403);
     }
 }

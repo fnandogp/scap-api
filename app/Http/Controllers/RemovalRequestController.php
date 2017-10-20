@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RemovalRequest\ChooseRapporteurFormRequest;
 use App\Http\Requests\RemovalRequest\RegisterVotingResultFormRequest;
 use App\Http\Requests\RemovalRequest\RemovalRequestArchiveFormRequest;
+use App\Http\Requests\RemovalRequest\RemovalRequestCancelFormRequest;
 use App\Http\Requests\RemovalRequest\RemovalRequestCreateFormRequest;
 use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Jobs\RemovalRequest\RegisterVotingResult;
 use App\Jobs\RemovalRequest\RemovalRequestArchive;
+use App\Jobs\RemovalRequest\RemovalRequestCancel;
 use App\RemovalRequest;
 use App\Repositories\RemovalRequestRepository;
 use App\Transformers\RemovalRequestTransformer;
@@ -174,6 +176,30 @@ class RemovalRequestController extends Controller
             ->toArray();
 
         $data['message'] = __('responses.removal_request.archived');
+
+        return response()->json($data, 200);
+    }
+
+
+    /**
+     * Cancel a removal request
+     *
+     * @param \App\Http\Requests\RemovalRequest\RemovalRequestCancelFormRequest $request
+     * @param \App\RemovalRequest $removal_request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function cancel(RemovalRequestCancelFormRequest $request, RemovalRequest $removal_request)
+    {
+        $data = $request->only('cancellation_reason');
+        $data = array_add($data, 'removal_request_id', $removal_request->id);
+
+        $removal_request = dispatch(new RemovalRequestCancel($data));
+
+        $data = fractal()
+            ->item($removal_request, new RemovalRequestTransformer)
+            ->toArray();
+
+        $data['message'] = __('responses.removal_request.canceled');
 
         return response()->json($data, 200);
     }

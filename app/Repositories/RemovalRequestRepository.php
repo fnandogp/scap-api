@@ -61,6 +61,26 @@ class RemovalRequestRepository extends BaseRepository
 
 
     /**
+     * Update removal request status set the reason
+     *
+     * @param $id
+     * @param $reason
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function cancel($id, $reason)
+    {
+        $removal_request = $this->find($id);
+        $removal_request->fill([
+            'cancellation_reason' => $reason,
+            'status'              => 'cancelled',
+        ]);
+        $removal_request->save();
+
+        return $removal_request;
+    }
+
+
+    /**
      * Get only the removal request that the current user created
      *
      * @param int $take

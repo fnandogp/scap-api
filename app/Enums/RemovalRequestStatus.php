@@ -11,7 +11,7 @@ class RemovalRequestStatus extends BaseEnum
             'released'       => 'Released',
             'blocked'        => 'Blocked',
             'appropriate'    => 'Appropriate',
-            'canceled'       => 'Canceled',
+            'cancelled'      => 'Cancelled',
             'approved-di'    => 'Approved-DI',
             'approved-ct'    => 'Approved-CT',
             'approved-prppg' => 'Approved-PRPPG',
