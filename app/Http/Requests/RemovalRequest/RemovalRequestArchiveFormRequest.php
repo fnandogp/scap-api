@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Opinion;
+namespace App\Http\Requests\RemovalRequest;
 
-use App\Enums\OpinionType;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterCtOpinionFormRequest extends FormRequest
+class RemovalRequestArchiveFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +15,7 @@ class RegisterCtOpinionFormRequest extends FormRequest
     {
         $removal_request = request()->removal_request;
 
-        return $removal_request->type == 'international' && $removal_request->status == 'approved-di';
+        return $removal_request->type == 'international' && $removal_request->status == 'approved-prppg';
     }
 
 
@@ -27,9 +26,6 @@ class RegisterCtOpinionFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'type'   => 'required|in:'.OpinionType::implode(),
-            'reason' => 'required|max:1024',
-        ];
+        return [];
     }
 }

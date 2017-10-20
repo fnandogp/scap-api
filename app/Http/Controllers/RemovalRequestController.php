@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RemovalRequest\ChooseRapporteurFormRequest;
 use App\Http\Requests\RemovalRequest\RegisterVotingResultFormRequest;
+use App\Http\Requests\RemovalRequest\RemovalRequestArchiveFormRequest;
 use App\Http\Requests\RemovalRequest\RemovalRequestCreateFormRequest;
 use App\Jobs\RemovalRequest\ChooseRapporteur;
 use App\Jobs\RemovalRequest\CreateRemovalRequest;
 use App\Jobs\RemovalRequest\RegisterVotingResult;
+use App\Jobs\RemovalRequest\RemovalRequestArchive;
 use App\RemovalRequest;
 use App\Repositories\RemovalRequestRepository;
 use App\Transformers\RemovalRequestTransformer;
+use Tests\Feature\RemovalRequest\RemovalRequestArchiveTest;
 
 class RemovalRequestController extends Controller
 {
@@ -150,6 +153,27 @@ class RemovalRequestController extends Controller
             ->toArray();
 
         $data['message'] = __('responses.removal_request.rapporteur_changed');
+
+        return response()->json($data, 200);
+    }
+
+
+    /**
+     * Archive a given removal request
+     *
+     * @param \App\Http\Requests\RemovalRequest\RemovalRequestArchiveFormRequest $request
+     * @param \App\RemovalRequest $removal_request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function archive(RemovalRequestArchiveFormRequest $request, RemovalRequest $removal_request)
+    {
+        $removal_request = dispatch(new RemovalRequestArchive($removal_request->id));
+
+        $data = fractal()
+            ->item($removal_request, new RemovalRequestTransformer)
+            ->toArray();
+
+        $data['message'] = __('responses.removal_request.archived');
 
         return response()->json($data, 200);
     }

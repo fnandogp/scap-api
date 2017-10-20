@@ -60,6 +60,13 @@ class RemovalRequestRepository extends BaseRepository
     }
 
 
+    /**
+     * Get only the removal request that the current user created
+     *
+     * @param int $take
+     * @param bool $paginate
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection|static[]
+     */
     public function getAllMine($take = 15, $paginate = true)
     {
         $user = \Auth::user();
