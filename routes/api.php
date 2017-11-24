@@ -1,11 +1,9 @@
 <?php
 Route::group(['middleware' => 'cors'], function () {
-
     Route::post('/auth/login', 'Auth\AuthController@login')
          ->name('auth.login');
 
     Route::group(['middleware' => 'jwt.auth'], function () {
-
         Route::get('/auth/me', 'Auth\AuthController@me')
              ->name('auth.me');
         Route::delete('/auth/logout', 'Auth\AuthController@logout')

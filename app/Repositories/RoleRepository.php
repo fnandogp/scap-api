@@ -17,5 +17,4 @@ class RoleRepository extends BaseRepository
                     ->where('name', $name)
                     ->first();
     }
-
 }

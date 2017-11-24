@@ -6,7 +6,6 @@ use App\Repositories\OpinionRepository;
 use App\Repositories\RemovalRequestRepository;
 
 class DeferOpinion
-
 {
     /**
      * @var array
@@ -27,7 +26,7 @@ class DeferOpinion
     /**
      * Execute the job.
      *
-     * @param OpinionRepository $repo_opinion
+     * @param OpinionRepository        $repo_opinion
      * @param RemovalRequestRepository $repo_removal_request
      *
      * @return mixed

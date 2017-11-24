@@ -32,7 +32,6 @@ class UserCreateTest extends FeatureTestCase
             ->assertStatus(201);
     }
 
-
     /** @test */
     public function it_check_permission_of_create_user()
     {
@@ -59,7 +58,6 @@ class UserCreateTest extends FeatureTestCase
             ->assertStatus(403);
     }
 
-
     public function it_fails_to_create_a_user_when_input_is_greater_then_permitted_or_non_valid_email()
     {
         $data = [
@@ -69,7 +67,7 @@ class UserCreateTest extends FeatureTestCase
         ];
 
         $this
-            ->post("/users", $data, $this->getCustomHeader($this->admin))
+            ->post('/users', $data, $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
                     'name'       => [
@@ -87,14 +85,13 @@ class UserCreateTest extends FeatureTestCase
             ->assertStatus(422);
     }
 
-
     /** @test */
     public function it_fails_to_create_a_user_with_email_already_taken()
     {
         $user = create(User::class);
 
         $this
-            ->post("/users", $user->toArray(), $this->getCustomHeader($this->admin))
+            ->post('/users', $user->toArray(), $this->getCustomHeader($this->admin))
             ->assertJson([
                 'errors' => [
                     'email' => [
@@ -105,12 +102,11 @@ class UserCreateTest extends FeatureTestCase
             ->assertStatus(422);
     }
 
-
     /** @test */
-    function it_fails_to_create_on_missing_field()
+    public function it_fails_to_create_on_missing_field()
     {
         $this
-            ->post("/users", [], $this->getCustomHeader($this->admin))
+            ->post('/users', [], $this->getCustomHeader($this->admin))
             ->assertJsonStructure([
                 'errors' => [
                     'name',

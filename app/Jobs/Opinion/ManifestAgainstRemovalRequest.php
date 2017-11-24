@@ -11,7 +11,6 @@ class ManifestAgainstRemovalRequest
      */
     private $data;
 
-
     /**
      * Create a new job instance.
      *

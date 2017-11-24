@@ -13,7 +13,6 @@ class CreateUser
      */
     private $data;
 
-
     /**
      * Create a new job instance.
      *
@@ -23,7 +22,6 @@ class CreateUser
     {
         $this->data = $data;
     }
-
 
     /**
      * Execute the job.
@@ -36,10 +34,10 @@ class CreateUser
     {
         $user = $repo->create($this->data);
 
-        $repo = new RoleRepository();
+        $role_repo = new RoleRepository();
 
         foreach ($this->data['roles'] as $role_name) {
-            $role = $repo->findByName($role_name)
+            $role = $role_repo->findByName($role_name)
                          ->toArray();
             $user->attachRole($role);
         }
