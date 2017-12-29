@@ -3,11 +3,10 @@
 namespace App\Http\Requests\RemovalRequest;
 
 use App\Enums\RemovalRequestOnus;
-use App\Enums\RemovalRequestStatus;
 use App\Enums\RemovalRequestType;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class RemovalRequestCreateFormRequest extends FormRequest
+class RemovalRequestCreateFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

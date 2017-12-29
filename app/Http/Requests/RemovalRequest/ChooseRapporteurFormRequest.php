@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\RemovalRequest;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class ChooseRapporteurFormRequest extends FormRequest
+class ChooseRapporteurFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,7 @@ class ChooseRapporteurFormRequest extends FormRequest
         return $user->hasRole('admin') || $user->hasRole('professor') && $user->is_department_chief;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -32,7 +33,7 @@ class ChooseRapporteurFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'rapporteur_id' => 'required|exists:users,id'
+            'rapporteur_id' => 'required|exists:users,id',
         ];
     }
 }

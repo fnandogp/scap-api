@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Opinion;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class ManifestAgainstFormRequest extends FormRequest
+class ManifestAgainstFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,6 +18,7 @@ class ManifestAgainstFormRequest extends FormRequest
         return $removal_request->type == 'national' && $removal_request->status == 'released';
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,7 +27,7 @@ class ManifestAgainstFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'reason' => 'required|max:1024'
+            'reason' => 'required|max:1024',
         ];
     }
 }

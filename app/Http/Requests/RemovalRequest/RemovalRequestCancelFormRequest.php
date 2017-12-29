@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\RemovalRequest;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class RemovalRequestCancelFormRequest extends FormRequest
+class RemovalRequestCancelFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +19,7 @@ class RemovalRequestCancelFormRequest extends FormRequest
         return $removal_request->user->id == $user->id && ! in_array($removal_request->status, [
                 'archived',
                 'disapproved',
-                'cancelled'
+                'cancelled',
             ]);
     }
 

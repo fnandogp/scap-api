@@ -9,6 +9,16 @@ Route::group(['middleware' => 'cors'], function () {
         Route::delete('/auth/logout', 'Auth\AuthController@logout')
              ->name('auth.logout');
 
+        Route::group(['middleware' => 'role:admin|professor|secretary'], function () {
+            // Users
+            Route::get('/users', 'UserController@index')
+                 ->name('users.index');
+
+            // Requests
+            Route::get('/removal-requests', 'RemovalRequestController@index')
+                     ->name('removal-request.index');
+        });
+
         Route::group(['middleware' => 'role:admin|secretary'], function () {
             // Users
             Route::post('/users', 'UserController@store')
@@ -19,8 +29,7 @@ Route::group(['middleware' => 'cors'], function () {
                  ->name('users.update');
             Route::delete('/users/{user}', 'UserController@destroy')
                  ->name('users.delete');
-            Route::get('/users', 'UserController@index')
-                 ->name('users.index');
+
             Route::post('/users/{user}/department-chief', 'MandateController@store')
                  ->name('users.department-chief');
 
@@ -37,8 +46,6 @@ Route::group(['middleware' => 'cors'], function () {
 
         Route::group(['middleware' => 'role:admin|professor'], function () {
             // Requests
-            Route::get('/removal-requests', 'RemovalRequestController@index')
-                 ->name('removal-request.index');
             Route::get('/removal-requests/{removal_request}', 'RemovalRequestController@show')
                  ->name('removal-request.show');
             Route::post('/removal-requests', 'RemovalRequestController@store')

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Mandate;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class MandateCreateFormRequest extends FormRequest
+class MandateCreateFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,6 +16,7 @@ class MandateCreateFormRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +26,7 @@ class MandateCreateFormRequest extends FormRequest
     {
         return [
             'date_from' => 'required|date',
-            'date_to'   => 'nullable|date|after:date_from'
+            'date_to'   => 'nullable|date|after:date_from',
         ];
     }
 }

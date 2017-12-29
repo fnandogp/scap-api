@@ -3,9 +3,9 @@
 namespace App\Http\Requests\RemovalRequest;
 
 use App\Enums\OpinionType;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class RegisterVotingResultFormRequest extends FormRequest
+class RegisterVotingResultFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,6 +19,7 @@ class RegisterVotingResultFormRequest extends FormRequest
         return $removal_request->status == 'released';
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,7 +28,7 @@ class RegisterVotingResultFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:' . OpinionType::implode()
+            'type' => 'required|in:'.OpinionType::implode(),
         ];
     }
 }

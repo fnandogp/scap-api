@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Opinion;
 
 use App\Enums\OpinionType;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class RegisterPrppgOpinionFormRequest extends FormRequest
+class RegisterPrppgOpinionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,7 @@ class RegisterPrppgOpinionFormRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -31,7 +32,7 @@ class RegisterPrppgOpinionFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'type'   => 'required|in:' . OpinionType::implode(),
+            'type'   => 'required|in:'.OpinionType::implode(),
             'reason' => 'required|max:1024',
         ];
     }

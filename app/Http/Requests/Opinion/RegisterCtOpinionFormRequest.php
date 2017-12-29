@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Opinion;
 
 use App\Enums\OpinionType;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class RegisterCtOpinionFormRequest extends FormRequest
+class RegisterCtOpinionFormRequest extends BaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
