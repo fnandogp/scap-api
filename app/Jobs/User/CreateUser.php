@@ -32,7 +32,8 @@ class CreateUser
      */
     public function handle(UserRepository $repo)
     {
-        $user = $repo->create($this->data);
+        $this->data['password'] = bcrypt($this->data['password']);
+        $user                   = $repo->create($this->data);
 
         $role_repo = new RoleRepository();
 
