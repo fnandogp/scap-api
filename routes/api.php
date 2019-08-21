@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Facades\Route;
+
 Route::group(['middleware' => 'cors'], function () {
     Route::post('/auth/login', 'Auth\AuthController@login')
          ->name('auth.login');
